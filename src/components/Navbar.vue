@@ -5,26 +5,26 @@
             <div>viernes, Octubre 5, 2025</div>
             <div class="navbar-1-derecha">
                 <div>buscar</div>
-                <div>Log In</div>
+                <router-link to="/login">Log In</router-link>
             </div>
         </div>
         <div class="navbar-2">
-            <a href="index.html">
+            <router-link to="/">
                 <img src="../assets/logo_infopais.png" alt="Imagen Logo">
-            </a>
+            </router-link>
         </div>
         <div class="navbar-3">
             <router-link to="/mundo">Mundo</router-link>
-            <a href="#">Politica</a>
-            <a href="#">Negocios</a>
-            <a href="#">Opinion</a>
-            <a href="#">Tecnologia</a>
-            <a href="#">Ciencia</a>
-            <a href="#">Salud</a>
-            <a href="#">Deportes</a>
-            <a href="#">Entretenimiento</a>
-            <a href="#">Viajes</a>
-            <a href="#">Mas</a>
+            <router-link to="/politica">Politica</router-link>
+            <router-link to="/negocios">Negocios</router-link>
+            <router-link to="/opinion">Opinion</router-link>
+            <router-link to="/tecnologia">Tecnologia</router-link>
+            <router-link to="/ciencia">Ciencia</router-link>
+            <router-link to="/salud">Salud</router-link>
+            <router-link to="/deportes">Deportes</router-link>
+            <router-link to="/entretenimiento">Entretenimiento</router-link>
+            <router-link to="/viajes">Viajes</router-link>
+            <router-link to="/mas">Mas</router-link>
         </div>
     </div>
 </template>
@@ -40,6 +40,7 @@
     width: 100%;
     border-bottom: 1px solid var(--borde-suave);
     padding: .4rem 0 .4rem 0;
+    font-weight: 300;
 }
 
 .navbar-1-derecha {

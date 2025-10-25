@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Inicio from '../views/Inicio/Inicio.vue'
+import Inicio from '../views/Inicio.vue'
+import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 
 // Definís las rutas de tu aplicación
 const routes = [
@@ -8,6 +10,18 @@ const routes = [
     name: 'inicio',          // Nombre de la ruta
     component: Inicio    // Vista que se mostrará
   },
+
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  },
+
+  {
+    path: '/register',
+    name: 'register',
+    component: Register
+  }
 ]
 
 // Creás la instancia del router

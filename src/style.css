@@ -1,7 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root{
   --borde-suave: rgb(210, 210, 210);
 }
 
 body{
   margin: 0;
+}
+
+html {
+  font-family: "Roboto", sans-serif;
 }
