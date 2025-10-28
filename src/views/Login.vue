@@ -21,7 +21,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import AuthService from "../services/authService";
+import AuthService from "../services/auth.service";
 import { useRouter } from 'vue-router'
 
 const email = ref('')

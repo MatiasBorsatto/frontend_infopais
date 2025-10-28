@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import authService from '../services/authService';
+import authService from '../services/auth.service';
 
 const nombre = ref('')
 const fechaNac = ref('')
