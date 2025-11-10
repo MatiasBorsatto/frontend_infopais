@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import Admin from '../views/Admin.vue'
 
 // Definís las rutas de tu aplicación
 const routes = [
@@ -21,6 +22,12 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register
+  },
+
+  {
+    path: '/admin',
+    name: 'admin',
+    component: Admin
   }
 ]
 

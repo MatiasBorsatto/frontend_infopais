@@ -16,7 +16,7 @@ const API_URL = "http://localhost:3000/api";
 class NoticiaService {
   async obtenerNoticias(): Promise<Noticia[]> {
     const { data } = await axios.get(`${API_URL}/obtener`);
-    return data; // se asume que el backend devuelve un array de noticias
+    return data.obtenerNoticias;
   }
 }
 
