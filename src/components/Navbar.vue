@@ -5,7 +5,7 @@
             <div>viernes, Octubre 5, 2025</div>
             <div class="navbar-1-derecha">
                 <div>buscar</div>
-                <router-link to="/login">Log In</router-link>
+                <router-link to="login">Login</router-link>
             </div>
         </div>
         <div class="navbar-2">

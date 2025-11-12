@@ -1,71 +1,80 @@
 <template>
-    <section>
-        <form @submit.prevent="login">
-            <div class="cont-email">
-                <label for="email">Email</label>
-                <input type="email" name="email" id="email" v-model="email">
-            </div>
+    <form @submit.prevent="login">
+        <div class="center content-inputs">
+            <vs-input v-model="email" type="email" placeholder="Email" required />
+        </div>
 
-            <div class="cont-password">
-                <label for="password">Contraseña</label>
-                <input type="password" name="password" v-model="password">
-            </div>
+        <div class="center content-inputs">
+            <vs-input v-model="password" type="password" placeholder="Contraseña" required />
+        </div>
 
-            <button type="submit">Ingresar</button>
-            <p>No tenes cuenta? </p><router-link to="/register">Registrate aca!</router-link>
-        </form>
-    </section>
-
-
+        <vs-button> Ingresar </vs-button>
+    </form>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
-import AuthService from "../services/auth.service";
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import AuthService from '../services/auth.service'
 
 const email = ref('')
 const password = ref('')
-
 const router = useRouter()
 
 const login = async () => {
+    if (!email.value || !password.value) {
+        alert('Por favor completa todos los campos.')
+        return
+    }
+
     try {
+        const res = await AuthService.login({
+            email: email.value,
+            password: password.value
+        })
 
-        const data = await AuthService.login({ email: email.value, password: password.value })
-        console.log("Respuesta del backend:", data);
+        console.log("Respuesta cruda del backend:", res)
 
-        console.log(data)
+        // ⚙️ Si usás axios, probablemente el dato esté en res.data
+        const data = res.data ? res.data : res
 
-        if (data) {
-            alert(data.message);
+        console.log("Datos procesados:", data)
+
+        // Guarda token si existe
+        if (data.token) {
             localStorage.setItem('token', data.token)
         }
 
-        router.push({ name: 'inicio' })
+        if (data.message) {
+            alert(data.message)
+        }
+
+        // Detectar correctamente el rol_id sin importar el tipo
+        const rolId = data.rol || data.user?.rol || data.usuario?.rol
+
+        if (rolId == 2) {
+            router.push({ name: 'admin' })
+        } else {
+            router.push({ name: 'inicio' })
+        }
+
     } catch (error: any) {
-        console.error(error.response.data.error);
-        alert(error.response.data.error);
+        console.error("Error al iniciar sesión:", error)
+        const msg = error?.response?.data?.error || 'Error al iniciar sesión.'
+        alert(msg)
     }
-};
-
-
+}
 </script>
 
-<style scoped>
-section {
-    height: 100dvh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
 
+<style scoped>
 form {
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: center;
-    height: 20rem;
+    gap: 2rem;
+    height: calc(100vh - 10rem);
     padding: 2rem;
 }
 </style>

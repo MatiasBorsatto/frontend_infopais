@@ -28,9 +28,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 13rem;
+    height: 10rem;
     background-color: rgb(206, 206, 206);
     flex-direction: column;
+    position: relative;
+    width: 100%;
 }
 
 hr {

@@ -5,9 +5,10 @@ export interface Noticia {
   titulo: string;
   subtitulo: string;
   contenido: string;
-  likes: number;
-  dislikes: number;
-  vistas: number;
+  likes?: number;
+  by: string;
+  dislikes?: number;
+  vistas?: number;
   multimedia: string; // URL de imagen o video
 }
 
@@ -18,6 +19,12 @@ class NoticiaService {
     const { data } = await axios.get(`${API_URL}/obtener`);
     return data.obtenerNoticias;
   }
+
+  async guardarNoticia(noticia: Noticia): Promise<Noticia> {
+    const { data } = await axios.post(`${API_URL}/guardar`, noticia);
+    return data;
+  }
+
 }
 
 export default new NoticiaService();

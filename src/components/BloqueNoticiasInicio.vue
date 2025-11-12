@@ -1,20 +1,22 @@
 <template>
-    <div class="cont-noticia-main">
+    <div v-if="resNoticias.length > 0" class="cont-noticia-main">
         <div id="not-izq-cont">
             <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :subtitulo="resNoticias[0]?.subtitulo ?? ''"
                 :multimedia="multimedia" :custom-styles-title="{ fontSize: '2.5rem' }"
-                :custom-styles-subtitle="{ fontSize: '1.3rem' }" />
+                :custom-styles-subtitle="{ fontSize: '1.3rem' }" :by="resNoticias[0]?.by" />
         </div>
         <div>
-            <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia"
-                :custom-styles-title="{ fontSize: '1.3rem' }" />
 
             <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia"
-                :custom-styles-title="{ fontSize: '1.3rem' }" />
+                :custom-styles-title="{ fontSize: '1.5rem' }" :custom-styles-subtitle="{ fontSize: '1rem' }" />
 
+            <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia"
+                :custom-styles-title="{ fontSize: '1.5rem' }" :custom-styles-subtitle="{ fontSize: '1rem' }" />
         </div>
     </div>
+    <p v-else>Cargando noticias...</p>
 </template>
+
 
 <script setup lang="ts">
 import BloqueNoticia from './BloqueNoticia.vue';

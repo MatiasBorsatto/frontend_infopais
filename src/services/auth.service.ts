@@ -7,7 +7,7 @@ interface Login {
 }
 
 interface Register {
-  fecha_nacimiento: string;
+  fecha_nac: string;
   nombre:string;
   email: string;
   password: string;

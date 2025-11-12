@@ -2,40 +2,47 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
-import Admin from '../views/Admin.vue'
+import Admin from '../views/Admin/Admin.vue'
+import CrearNoticia from '../views/Admin/CrearNoticia.vue'
+import Dashboard from '../views/Admin/Dashboard.vue'
 
-// Definís las rutas de tu aplicación
 const routes = [
   {
-    path: '/',             // URL
-    name: 'inicio',          // Nombre de la ruta
-    component: Inicio    // Vista que se mostrará
+    path: '/',
+    name: 'inicio',
+    component: Inicio
   },
-
   {
     path: '/login',
     name: 'login',
     component: Login
   },
-
   {
     path: '/register',
     name: 'register',
     component: Register
   },
-
   {
     path: '/admin',
-    name: 'admin',
-    component: Admin
+    component: Admin,
+    children: [
+      {
+        path: '',
+        name: 'admin',
+        component: Dashboard
+      },
+      {
+        path: 'crear-noticia',
+        name: 'crear-noticia',
+        component: CrearNoticia
+      }
+    ]
   }
 ]
 
-// Creás la instancia del router
 const router = createRouter({
-  history: createWebHistory(), // Usa el modo "histórico" (sin # en la URL)
-  routes                        // Array de rutas
+  history: createWebHistory(),
+  routes
 })
 
-// Exportás para usarlo en main.js
 export default router
