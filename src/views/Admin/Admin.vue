@@ -1,8 +1,17 @@
 <template>
-    <Sidebar />
-
-    <router-view />
+    <div class="admin-layout">
+        <Sidebar />
+        <router-view />
+    </div>
 </template>
-<script lang="ts" setup>
-import Sidebar from './Sidebar.vue';
+
+<script setup lang="ts">
+import Sidebar from './Sidebar.vue'
 </script>
+
+<style scoped>
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+</style>

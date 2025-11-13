@@ -1,13 +1,17 @@
 <template>
+    <Navbar />
     <div>
         <BloqueNoticiaInicio />
     </div>
-    <BarraGeneral />
+
+    <Footer />
 </template>
 
 <script setup lang="ts">
 import BarraGeneral from '../components/BarraGeneral.vue';
 import BloqueNoticiaInicio from '../components/BloqueNoticiasInicio.vue';
+import Footer from '../components/Footer.vue';
+import Navbar from '../components/Navbar.vue';
 
 </script>
 
@@ -19,6 +23,7 @@ p {
 
 div {
     display: flex;
+    flex-direction: column;
     align-items: center;
     padding-left: 18%;
     padding-right: 18%;

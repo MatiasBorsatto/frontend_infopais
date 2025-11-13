@@ -8,6 +8,8 @@ export interface Noticia {
   likes?: number;
   by: string;
   dislikes?: number;
+  id_categoria?: number;
+  id_subcategoria?: number;
   vistas?: number;
   multimedia: string; // URL de imagen o video
 }
@@ -20,8 +22,18 @@ class NoticiaService {
     return data.obtenerNoticias;
   }
 
-  async guardarNoticia(noticia: Noticia): Promise<Noticia> {
+  async guardarNoticia(noticia: Noticia): Promise<Noticia[]> {
     const { data } = await axios.post(`${API_URL}/guardar`, noticia);
+    return data;
+  }
+
+  async obtenerCategorias(){
+    const { data } = await axios.get(`${API_URL}/obtenerCat`);
+    return data;
+  }
+
+  async obtenerSubcategorias(){
+    const { data } = await axios.get(`${API_URL}/obtenerSubCat`);
     return data;
   }
 

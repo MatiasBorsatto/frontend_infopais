@@ -11,28 +11,29 @@ const route = useRoute()
 const rutasPublicas = ['inicio', 'login', 'register']
 
 // Detecta si es una ruta del admin
-const esAdmin = computed(() => route.path.startsWith('/admin'))
+const esAdmin = computed(() => route.path?.startsWith('/admin') ?? false)
+
 const esPublica = computed(() => rutasPublicas.includes(route.name as string))
 </script>
 
 <template>
-  <!-- Layout público -->
-  <div v-if="esPublica">
-    <Navbar />
-    <router-view />
-    <Footer />
-  </div>
-
-  <!-- Layout de administración -->
-  <div v-if="esAdmin" class="admin-layout">
-    <Sidebar />
-    <router-view />
-  </div>
+  <router-view />
 </template>
+
+<script setup lang="ts"></script>
+
+
 
 <style scoped>
 .admin-layout {
   display: flex;
+  flex-direction: row;
   min-height: 100vh;
+  background-color: #f8f9fc;
+}
+
+.admin-layout>.router-view {
+  flex: 1;
+  padding: 2rem;
 }
 </style>

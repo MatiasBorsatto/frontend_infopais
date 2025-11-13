@@ -37,7 +37,7 @@
 .navbar-1 {
     display: flex;
     justify-content: space-around;
-    width: 100%;
+    width: 100dvw;
     border-bottom: 1px solid var(--borde-suave);
     padding: .4rem 0 .4rem 0;
     font-weight: 300;

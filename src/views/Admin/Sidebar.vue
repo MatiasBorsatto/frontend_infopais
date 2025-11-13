@@ -39,7 +39,7 @@
             </vs-sidebar-item>
 
 
-            <vs-sidebar-item id="donate">
+            <vs-sidebar-item id="donate" to="/admin/usuarios">
                 <template #icon>
                     <vs-icon>
                         <vs-iconUserBold />

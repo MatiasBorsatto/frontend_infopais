@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        <p>Este es el Dashboard</p>
     </div>
 </template>
 
@@ -8,4 +8,11 @@
 
 </script>
 
-<style scoped></style>
+<style scoped>
+div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+</style>
