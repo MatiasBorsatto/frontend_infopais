@@ -9,11 +9,18 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@vuesax-alpha/icons-vue": "^0.0.2-beta.12",
+    "@primeuix/themes": "^1.2.5",
+    "@primevue/forms": "^4.4.1",
+    "@primevue/themes": "^4.4.1",
+    "@tailwindcss/vite": "^4.1.17",
     "axios": "^1.12.2",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.4.1",
+    "tailwindcss": "^4.1.17",
+    "tailwindcss-primeui": "^0.6.1",
     "vue": "^3.5.22",
     "vue-router": "^4.6.3",
-    "vuesax-alpha": "^0.2.0-beta.80"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",

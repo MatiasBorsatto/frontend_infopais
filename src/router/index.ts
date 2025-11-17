@@ -41,6 +41,11 @@ const routes = [
         path: 'usuarios',
         name: 'usuarios',
         component: Usuarios
+      },
+      {
+        path: 'dashboard',
+        name: 'dashboard',
+        component: Dashboard
       }
     ]
   }

@@ -1,172 +1,217 @@
 <template>
-    <form @submit.prevent="crear">
-        <div class="center content-inputs">
-            <vs-input v-model="titulo" color="primary" placeholder="Título" label-float style="width: 600px" />
-            <vs-input v-model="subtitulo" color="primary" placeholder="Subtítulo" label-float style="width: 600px" />
-            <vs-input v-model="by" color="primary" placeholder="Autor" label-float style="width: 600px" />
-            <vs-input v-model="contenido" color="primary" placeholder="Contenido" label-float style="width: 600px" />
-            <vs-select v-model="categoria" label="Categorías" label-float class="select-extend"
-                :placeholder="'Seleccioná una categoría'">
-                <template #default>
-                    <vs-option v-for="c in categoriaCont" :key="c.id_categoria" :value="c.nombre">
-                        {{ c.nombre }}
-                    </vs-option>
-                </template>
-            </vs-select>
+    <div class="card flex justify-center">
+        <Toast />
+        <Form :initialValues="initialValues" :resolver="resolver" @submit="onFormSubmit"
+            class="flex flex-col gap-4 w-full max-w-2xl p-6">
 
+            <!-- Título -->
+            <FormField v-slot="$field" name="titulo" class="flex flex-col gap-1">
+                <label class="font-medium text-gray-700">Título</label>
+                <InputText type="text" placeholder="Título" />
+                <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                    {{ $field.error?.message }}
+                </Message>
+            </FormField>
 
-            <vs-select v-model="subcategoria" label="Subcategorías" label-float class="select-extend">
-                <vs-option v-for="sc in subcategoriaCont" :key="sc.id_subcategoria" :value="sc.nombre">
-                    {{ sc.nombre }}
-                </vs-option>
-            </vs-select>
+            <!-- Subtítulo -->
+            <FormField v-slot="$field" name="subtitulo" class="flex flex-col gap-1">
+                <label class="font-medium text-gray-700">Subtítulo</label>
+                <InputText type="text" placeholder="Subtítulo" />
+                <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                    {{ $field.error?.message }}
+                </Message>
+            </FormField>
 
+            <!-- Autor -->
+            <FormField v-slot="$field" name="by" class="flex flex-col gap-1">
+                <label class="font-medium text-gray-700">Autor</label>
+                <InputText type="text" placeholder="Autor" />
+                <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                    {{ $field.error?.message }}
+                </Message>
+            </FormField>
 
-            <vs-input v-model="multimedia" color="primary" placeholder="URL Multimedia" label-float
-                style="width: 600px" />
-        </div>
+            <!-- Contenido -->
+            <FormField v-slot="$field" name="contenido" class="flex flex-col gap-1">
+                <label class="font-medium text-gray-700">Contenido</label>
+                <Textarea placeholder="Contenido" rows="5" />
+                <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                    {{ $field.error?.message }}
+                </Message>
+            </FormField>
 
-        <vs-button :active="active === 0">Guardar</vs-button>
-    </form>
+            <!-- Categoría -->
+            <FormField v-slot="$field" name="categoria" class="flex flex-col gap-1">
+                <label class="font-medium text-gray-700">Categoría</label>
+                <Select :options="categoriaCont" optionLabel="nombre" optionValue="id_categoria"
+                    placeholder="Seleccioná una categoría" class="w-full" />
+                <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                    {{ $field.error?.message }}
+                </Message>
+            </FormField>
+
+            <!-- Subcategoría -->
+            <FormField v-slot="$field" name="subcategoria" class="flex flex-col gap-1">
+                <label class="font-medium text-gray-700">Subcategoría</label>
+                <Select :options="subcategoriaCont" optionLabel="nombre" optionValue="id_subcategoria"
+                    placeholder="Seleccioná una subcategoría" class="w-full" />
+                <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">
+                    {{ $field.error?.message }}
+                </Message>
+            </FormField>
+
+            <!-- URL Multimedia -->
+            <subir-archivos />
+
+            <Button type="submit" severity="secondary" label="Guardar" class="mt-4" />
+        </Form>
+    </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import noticiaService, { type Noticia } from '../../services/noticia.service'
+import { onMounted, ref, reactive } from 'vue'
+import { zodResolver } from '@primevue/forms/resolvers/zod'
+import { z } from 'zod'
+import { useToast } from 'primevue/usetoast'
+import Form from '@primevue/forms/form'
+import FormField from '@primevue/forms/formfield'
+import InputText from 'primevue/inputtext'
+import Textarea from 'primevue/textarea'
+import Select from 'primevue/select'
+import Button from 'primevue/button'
+import Message from 'primevue/message'
+import Toast from 'primevue/toast'
+import noticiaService from '../../services/noticia.service'
+// @ts-ignore: no declaration file for .vue modules
+import SubirArchivos from '../../components/SubirArchivos.vue'
 
-// Estado de inputs
-const active = ref<number>(0)
-const titulo = ref('')
-const subtitulo = ref('')
-const by = ref('')
-const contenido = ref('')
+const toast = useToast()
 
-// Lista de categorías accesible en template
+// Interfaz para tipar los valores del formulario
+interface NoticiaForm {
+    titulo: string
+    subtitulo: string
+    by: string
+    contenido: string
+    categoria: number | null
+    subcategoria: number | null
+    multimedia: string
+}
+
+// Estado de categorías y subcategorías
 const categoriaCont = ref<any[]>([])
 const subcategoriaCont = ref<any[]>([])
 
-onMounted(async () => {
-    const categorias = await noticiaService.obtenerCategorias()
-    console.log(categorias)
-    categoriaCont.value = categorias.obtenerCategorias
-
-    const subcategorias = await noticiaService.obtenerSubcategorias()
-    console.log(subcategorias)
-    subcategoriaCont.value = subcategorias.obtenerSubcategorias
+// Valores iniciales del formulario con tipo
+const initialValues = reactive<NoticiaForm>({
+    titulo: '',
+    subtitulo: '',
+    by: '',
+    contenido: '',
+    categoria: null,
+    subcategoria: null,
+    multimedia: ''
 })
 
+// Validación con Zod
+const resolver = zodResolver(
+    z.object({
+        titulo: z.string().min(1, { message: 'El título es obligatorio.' }),
+        subtitulo: z.string().optional(),
+        by: z.string().optional(),
+        contenido: z.string().min(1, { message: 'El contenido es obligatorio.' }),
+        categoria: z.number().nullable().refine(val => val !== null, {
+            message: 'Debes seleccionar una categoría.'
+        }),
+        subcategoria: z.number().nullable().optional(),
+        multimedia: z.string().url({ message: 'Debe ser una URL válida.' }).or(z.literal('')).optional()
+    })
+)
 
-const categoria = ref<number | string | null>(null)
+// Cargar categorías y subcategorías
+onMounted(async () => {
+    try {
+        const categorias = await noticiaService.obtenerCategorias()
+        categoriaCont.value = categorias.obtenerCategorias
 
-const subcategoria = ref<number | string | null>(null)
-const multimedia = ref('')
+        const subcategorias = await noticiaService.obtenerSubcategorias()
+        subcategoriaCont.value = subcategorias.obtenerSubcategorias
+    } catch (error) {
+        console.error('Error al cargar categorías:', error)
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'No se pudieron cargar las categorías.',
+            life: 3000
+        })
+    }
+})
 
-// Crear noticia
-const crear = async () => {
-    // Validación simple
-    if (!titulo.value || !contenido.value || !categoria.value) {
-        alert('Por favor completá los campos obligatorios.')
+// Envío del formulario
+const onFormSubmit = async ({ valid, values }: any) => {
+    if (!valid) {
+        toast.add({
+            severity: 'warn',
+            summary: 'Formulario incompleto',
+            detail: 'Por favor completá los campos obligatorios.',
+            life: 3000
+        })
         return
     }
 
     try {
-
-        if (typeof categoria.value === 'string') {
-            const cat = categoriaCont.value.find(c => c.nombre === categoria.value)
-            if (cat) categoria.value = cat.id_categoria
-        }
-
-        if (typeof subcategoria.value === 'string') {
-            const subcat = subcategoriaCont.value.find(sc => sc.nombre === subcategoria.value)
-            if (subcat) subcategoria.value = subcat.id_subcategoria
-        }
-
         const noticia = {
-            titulo: titulo.value,
-            subtitulo: subtitulo.value,
-            by: by.value,
-            contenido: contenido.value,
-            categoria_id: categoria.value,
-            subcategoria_id: subcategoria.value,
-            multimedia: multimedia.value
+            titulo: values.titulo,
+            subtitulo: values.subtitulo,
+            by: values.by,
+            contenido: values.contenido,
+            categoria_id: values.categoria,
+            subcategoria_id: values.subcategoria,
+            multimedia: values.multimedia
         }
 
-        console.log("Este es:", noticia)
+        console.log('Noticia a enviar:', noticia);
 
-        const respuesta = await noticiaService.guardarNoticia(noticia)
+        const respuesta = await noticiaService.guardarNoticia(noticia);
 
-        console.log('Noticia creada correctamente:', respuesta)
-        alert('✅ Noticia creada con éxito')
+        console.log('Noticia creada correctamente:', respuesta);
 
-        // Limpia el formulario
-        titulo.value = ''
-        subtitulo.value = ''
-        by.value = ''
-        contenido.value = ''
-        categoria.value = ''
-        subcategoria.value = ''
-        multimedia.value = ''
+        toast.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Noticia creada con éxito',
+            life: 3000
+        });
+        // Limpiar el formulario con tipado correcto
+        (Object.keys(initialValues) as Array<keyof NoticiaForm>).forEach((key) => {
+            if (key === 'categoria' || key === 'subcategoria') {
+                initialValues[key] = null
+            } else {
+                initialValues[key] = '' as any
+            }
+        })
+
     } catch (error: any) {
-        console.error('❌ Error al crear la noticia:', error)
-        alert(error?.response?.data?.error || 'Hubo un error al crear la noticia.')
+        console.error('Error al crear la noticia:', error)
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error?.response?.data?.error || 'Hubo un error al crear la noticia.',
+            life: 3000
+        })
     }
 }
 </script>
 
-<style>
-form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 2rem;
-    margin: 0;
-    width: 100%;
+<style scoped>
+.card {
+    padding: 2rem;
+    background: white;
+    border-radius: 0.5rem;
+    overflow-y: auto;
 }
 
-.content-inputs {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    margin: 0;
-    gap: 1rem;
-}
-
-/* Forzar mismo ancho que los inputs */
-:deep(.select-extend) {
-    width: 600px !important;
-    max-width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-/* Nivel interno del componente (donde está el verdadero ancho) */
-:deep(.select-extend .vs-select) {
-    width: 100% !important;
-}
-
-/* El contenedor del contenido del select */
-:deep(.select-extend .vs-select-content) {
-    width: 100% !important;
-}
-
-.vs-input,
-.vs-input-content {
-    width: 600px !important;
-    max-width: 100%;
-}
-
-/* 🔹 Selects de Vuesax */
-.vs-select,
-.vs-select-content {
-    width: 600px !important;
-    max-width: 100%;
-    display: block;
-}
-
-/* 🔹 Opcional: centrado del botón */
-.vs-button {
-    margin-top: 1rem;
+label {
+    margin-bottom: 0.25rem;
 }
 </style>
