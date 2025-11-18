@@ -3,9 +3,10 @@ import Inicio from '../views/Inicio.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Admin from '../views/Admin/Admin.vue'
-import CrearNoticia from '../views/Admin/CrearNoticia.vue'
 import Dashboard from '../views/Admin/Dashboard.vue'
 import Usuarios from '../views/Admin/Usuarios.vue'
+// @ts-ignore: no declaration file for .vue modules
+import TablaNoticias from '../components/admin/TablaNoticias.vue'
 
 const routes = [
   {
@@ -33,9 +34,9 @@ const routes = [
         component: Dashboard
       },
       {
-        path: 'crear-noticia',
-        name: 'crear-noticia',
-        component: CrearNoticia
+        path: 'noticias',
+        name: 'noticias',
+        component: TablaNoticias
       },
       {
         path: 'usuarios',

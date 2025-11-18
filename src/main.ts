@@ -5,6 +5,7 @@ import router from './router'
 import PrimeVue from 'primevue/config';
 import Lara from '@primevue/themes/lara';
 import { definePreset } from '@primevue/themes'
+import Toast from 'primevue/toast';
 
 import ToastService from 'primevue/toastservice';
 
@@ -44,5 +45,6 @@ app.use(PrimeVue, {
     }
 })
 app.use(ToastService)
+app.component('Toast', Toast);
 
 app.mount('#app')

@@ -13,9 +13,9 @@
                 <router-link to="/admin/dashboard" class="menu-item" @click="$emit('close')">
                     <span class="flex-1">Inicio</span>
                 </router-link>
-                <router-link to="/admin/crear-noticia" class="menu-item" @click="$emit('close')">
-                    <span class="flex-1">Nueva Noticia</span>
-                    <i class="pi pi-plus-circle"></i>
+                <router-link to="/admin/noticias" class="menu-item" @click="$emit('close')">
+                    <span class="flex-1">Noticias</span>
+                    <i class="pi pi-book"></i>
                 </router-link>
                 <router-link to="/admin/usuarios" class="menu-item" @click="$emit('close')">
                     <span class="flex-1">Usuarios</span>

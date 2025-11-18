@@ -6,7 +6,7 @@
 
 <script lang="ts" setup>
 // @ts-ignore: no declaration file for .vue modules
-import TablaUsuarios from '../../components/TablaUsuarios.vue';
+import TablaUsuarios from '../../components/admin/TablaUsuarios.vue';
 </script>
 
 

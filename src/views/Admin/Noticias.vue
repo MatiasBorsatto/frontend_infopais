@@ -83,7 +83,7 @@ import Message from 'primevue/message'
 import Toast from 'primevue/toast'
 import noticiaService from '../../services/noticia.service'
 // @ts-ignore: no declaration file for .vue modules
-import SubirArchivos from '../../components/SubirArchivos.vue'
+import SubirArchivos from '../../components/admin/SubirArchivos.vue'
 
 const toast = useToast()
 

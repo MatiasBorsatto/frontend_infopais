@@ -4,7 +4,7 @@ export interface Usuario {
   id?: number;
   nombre: string;
   email: string;
-  fecha_nac: string;
+  fecha_nac?: string;
   rol_id?: number;
 }
 
@@ -20,6 +20,17 @@ class UsuarioService {
     const { data } = await axios.get(`${API_URL}/obtenerUsers`);
     return data.obtenerUsuarios;
   }
+
+ async actualizarUsuario(id: number, newData: object) {
+    const { data } = await axios.put(`${API_URL}/actualizarUsuario/${id}`, newData);
+    return data;
+}
+
+async eliminarUsuario(id: number) {
+    const { data } = await axios.delete(`${API_URL}/eliminarUsuario/${id}`);
+    return data;
+}
+
 
 }
 
