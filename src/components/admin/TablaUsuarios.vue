@@ -26,7 +26,7 @@
             </Column>
 
             <!-- Columna Usuario con filtro y edición -->
-            <Column field="nombre" header="Usuario" :showFilterMenu="false" style="width: 25%" :sortable="true">
+            <Column field="nombre" header="Usuario" :showFilterMenu="false" style="width: 20%" :sortable="true">
                 <template #body="{ data, field }">
                     <div class="flex items-center gap-2">
                         <span>{{ data[field] }}</span>
@@ -41,7 +41,7 @@
                 </template>
             </Column>
 
-            <Column field="email" header="Email" :showFilterMenu="false" style="width: 30%" :sortable="true">
+            <Column field="email" header="Email" :showFilterMenu="false" style="width: 20%" :sortable="true">
                 <template #body="{ data, field }">
                     <div class="flex items-center gap-2">
                         <span>{{ data[field] }}</span>
@@ -85,18 +85,16 @@
             </Column>
 
             <!-- Columna de edición -->
-            <Column :exportable="false" style="min-width: 10%">
+            <Column :exportable="false" style="min-width: 20%" :showFilterMenu="false">
+
+                <template #filter>
+                    <CrearUsuario />
+                </template>
                 <template #body="slotProps">
                     <Button icon="pi pi-pencil" variant="outlined" rounded class="mr-2"
                         @click="editUser(slotProps.data)" />
                     <Button icon="pi pi-trash" variant="outlined" rounded severity="danger"
                         @click="confirmDeleteUser(slotProps.data)" />
-                </template>
-            </Column>
-
-            <Column>
-                <template #filter>
-                    <CrearUsuario />
                 </template>
             </Column>
 
