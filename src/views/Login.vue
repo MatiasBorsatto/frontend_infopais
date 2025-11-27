@@ -73,11 +73,6 @@ const login = async (event: any) => {
 
         console.log("Datos procesados:", data)
 
-        // Guarda token si existe
-        if (data.token) {
-            localStorage.setItem('token', data.token)
-        }
-
         // Detectar correctamente el rol_id
         const rolId = data.rol || data.user?.rol || data.usuario?.rol
 

@@ -19,13 +19,19 @@ const API_URL = "http://localhost:3000/api";
 class AuthService {
   async login(usuario: Login) {
 
-    const { data } = await axios.post(`${API_URL}/login`, usuario);
+    const { data } = await axios.post(`${API_URL}/login`, usuario, { withCredentials: true });
     return data;
   }
 
   async register(usuario: Register) {
 
     const { data } = await axios.post(`${API_URL}/register`, usuario);
+    return data;
+  }
+
+  async logout() {
+
+    const { data } = await axios.post(`${API_URL}/logout`, {}, { withCredentials: true });
     return data;
   }
 }
