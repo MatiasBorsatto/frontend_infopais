@@ -57,16 +57,22 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import Avatar from 'primevue/avatar'
+import authService from '../../services/auth.service'
 
 const router = useRouter()
 
 const emit = defineEmits(['close'])
 
 
-const handleLogout = () => {
-    localStorage.removeItem('token')
-    router.push({ name: 'login' })
-    emit('close')
+const handleLogout = async () => {
+    try {
+        await authService.logout()  // Ejecuta la petición al backend
+
+        router.push({ name: 'login' })
+        emit('close')
+    } catch (error) {
+        console.error("Error al cerrar sesión:", error)
+    }
 }
 </script>
 
