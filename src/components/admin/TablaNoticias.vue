@@ -98,6 +98,14 @@
                     </template>
                 </Column>
 
+                <Column field="slug" header="Slug" style="min-width: 8rem">
+                    <template #body="slotProps">
+                        <span class="flex items-center gap-2">
+                            {{ slotProps.data.slug }}
+                        </span>
+                    </template>
+                </Column>
+
                 <Column field="estado_id" header="Estado" sortable style="min-width: 10rem">
                     <template #body="slotProps">
                         <Tag :value="getEstadoLabel(slotProps.data.estado_id)"
@@ -353,6 +361,7 @@ const saveNoticia = async () => {
                 });
             } else {
                 // Crear nueva noticia
+                console.log(noticia.value)
                 const nuevaNoticia = await noticiaService.guardarNoticia(noticia.value);
                 noticias.value.push(nuevaNoticia);
                 toast.add({

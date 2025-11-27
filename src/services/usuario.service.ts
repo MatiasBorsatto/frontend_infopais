@@ -8,11 +8,6 @@ export interface Usuario {
   rol_id?: number;
 }
 
-interface RespuestaUsuarios {
-  mensaje: string;
-  obtenerUsuarios: Usuario[];
-}
-
 const API_URL = "http://localhost:3000/api";
 
 class UsuarioService {

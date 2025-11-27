@@ -2,6 +2,8 @@
     <Navbar />
     <div>
         <BloqueNoticiaInicio />
+        <Divider />
+        <BarraGeneral />
     </div>
 
     <Footer />
@@ -12,6 +14,7 @@ import BarraGeneral from '../components/BarraGeneral.vue';
 import BloqueNoticiaInicio from '../components/BloqueNoticiasInicio.vue';
 import Footer from '../components/Footer.vue';
 import Navbar from '../components/Navbar.vue';
+import Divider from 'primevue/divider';
 
 </script>
 
@@ -21,12 +24,13 @@ p {
     background-color: black;
 }
 
+
 div {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-left: 18%;
-    padding-right: 18%;
+    padding-left: 15%;
+    padding-right: 15%;
 }
 
 /*MEDIA QUERIES*/

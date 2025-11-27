@@ -12,6 +12,7 @@ export interface Noticia {
   id_subcategoria?: number;
   vistas?: number;
   multimedia: string; // URL de imagen o video
+  slug: string;
 }
 
 const API_URL = "http://localhost:3000/api";

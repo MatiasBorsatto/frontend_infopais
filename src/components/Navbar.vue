@@ -1,31 +1,29 @@
 <template>
-    <div>
-        <div class="navbar-1">
-            <div>secciones</div>
-            <div>viernes, Octubre 5, 2025</div>
-            <div class="navbar-1-derecha">
-                <div>buscar</div>
-                <router-link to="login">Login</router-link>
-            </div>
+    <div class="navbar-1">
+        <div>secciones</div>
+        <div>viernes, Octubre 5, 2025</div>
+        <div class="navbar-1-derecha">
+            <div>buscar</div>
+            <router-link to="login">Login</router-link>
         </div>
-        <div class="navbar-2">
-            <router-link to="/">
-                <img src="../assets/logo_infopais.png" alt="Imagen Logo">
-            </router-link>
-        </div>
-        <div class="navbar-3">
-            <router-link to="/mundo">Mundo</router-link>
-            <router-link to="/politica">Politica</router-link>
-            <router-link to="/negocios">Negocios</router-link>
-            <router-link to="/opinion">Opinion</router-link>
-            <router-link to="/tecnologia">Tecnologia</router-link>
-            <router-link to="/ciencia">Ciencia</router-link>
-            <router-link to="/salud">Salud</router-link>
-            <router-link to="/deportes">Deportes</router-link>
-            <router-link to="/entretenimiento">Entretenimiento</router-link>
-            <router-link to="/viajes">Viajes</router-link>
-            <router-link to="/mas">Mas</router-link>
-        </div>
+    </div>
+    <div class="navbar-2">
+        <router-link to="/">
+            <img src="../assets/logo_infopais.png" alt="Imagen Logo">
+        </router-link>
+    </div>
+    <div class="navbar-3">
+        <router-link to="/mundo">Mundo</router-link>
+        <router-link to="/politica">Politica</router-link>
+        <router-link to="/negocios">Negocios</router-link>
+        <router-link to="/opinion">Opinion</router-link>
+        <router-link to="/tecnologia">Tecnologia</router-link>
+        <router-link to="/ciencia">Ciencia</router-link>
+        <router-link to="/salud">Salud</router-link>
+        <router-link to="/deportes">Deportes</router-link>
+        <router-link to="/entretenimiento">Entretenimiento</router-link>
+        <router-link to="/viajes">Viajes</router-link>
+        <router-link to="/mas">Mas</router-link>
     </div>
 </template>
 
@@ -37,7 +35,6 @@
 .navbar-1 {
     display: flex;
     justify-content: space-around;
-    width: 100dvw;
     border-bottom: 1px solid var(--borde-suave);
     padding: .4rem 0 .4rem 0;
     font-weight: 300;

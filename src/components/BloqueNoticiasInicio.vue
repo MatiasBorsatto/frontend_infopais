@@ -1,17 +1,23 @@
 <template>
     <div v-if="resNoticias.length > 0" class="cont-noticia-main">
         <div id="not-izq-cont">
-            <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :subtitulo="resNoticias[0]?.subtitulo ?? ''"
-                :multimedia="multimedia" :custom-styles-title="{ fontSize: '2.5rem' }"
-                :custom-styles-subtitle="{ fontSize: '1.3rem' }" :by="resNoticias[0]?.by" />
+            <router-link :to="resNoticias[0]?.slug ?? ''">
+                <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :subtitulo="resNoticias[0]?.subtitulo ?? ''"
+                    :multimedia="multimedia" :custom-styles-title="{ fontSize: '2.5rem' }"
+                    :custom-styles-subtitle="{ fontSize: '1.3rem' }" :by="resNoticias[0]?.by" />
+            </router-link>
         </div>
-        <div>
+        <div id="not-der-cont">
 
-            <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia"
-                :custom-styles-title="{ fontSize: '1.5rem' }" :custom-styles-subtitle="{ fontSize: '1rem' }" />
+            <router-link :to="resNoticias[2]?.slug ?? ''">
+                <BloqueNoticia :titulo="resNoticias[2]?.titulo ?? ''" :multimedia="multimedia"
+                    :custom-styles-title="{ fontSize: '1.5rem' }" :custom-styles-subtitle="{ fontSize: '1rem' }" />
+            </router-link>
 
-            <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia"
-                :custom-styles-title="{ fontSize: '1.5rem' }" :custom-styles-subtitle="{ fontSize: '1rem' }" />
+            <router-link :to="resNoticias[3]?.slug ?? ''">
+                <BloqueNoticia :titulo="resNoticias[3]?.titulo ?? ''" :multimedia="multimedia"
+                    :custom-styles-title="{ fontSize: '1.5rem' }" :custom-styles-subtitle="{ fontSize: '1rem' }" />
+            </router-link>
         </div>
     </div>
     <p v-else>Cargando noticias...</p>
@@ -33,7 +39,7 @@ onMounted(async () => {
     try {
         const noticias = await noticiaService.obtenerNoticias();
         resNoticias.value = noticias;
-        console.log('Noticias cargadas:', noticias);
+        console.log('Noticias cargadas:', resNoticias.value);
     } catch (error) {
         console.error('Error al obtener noticias:', error);
     }
@@ -52,12 +58,20 @@ img {
     grid-template-rows: 1fr;
     width: 100%;
     padding: 0;
+    transition: .5s;
     gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 #not-izq-cont {
     height: 100%;
     flex: 1;
+}
+
+#not-der-cont {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 :deep(.vs-card) {

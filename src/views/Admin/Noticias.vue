@@ -110,7 +110,7 @@ const initialValues = reactive<NoticiaForm>({
     contenido: '',
     categoria: null,
     subcategoria: null,
-    multimedia: ''
+    multimedia: '',
 })
 
 // Validación con Zod
@@ -167,7 +167,8 @@ const onFormSubmit = async ({ valid, values }: any) => {
             contenido: values.contenido,
             categoria_id: values.categoria,
             subcategoria_id: values.subcategoria,
-            multimedia: values.multimedia
+            multimedia: values.multimedia,
+            slug: values.slug
         }
 
         console.log('Noticia a enviar:', noticia);
