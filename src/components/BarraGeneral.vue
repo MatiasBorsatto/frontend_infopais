@@ -23,13 +23,13 @@ const resNoticias = ref<Noticia[]>([]);
 const multimedia = "/src/assets/test.webp"
 
 onMounted(async () => {
-    try {
-        const noticias = await noticiaService.obtenerNoticias();
-        resNoticias.value = noticias;
-        console.log('Noticias cargadas:', resNoticias.value);
-    } catch (error) {
-        console.error('Error al obtener noticias:', error);
-    }
+    // try {
+    //     const noticias = await noticiaService.obtenerNoticias();
+    //     resNoticias.value = noticias;
+    //     console.log('Noticias cargadas:', resNoticias.value);
+    // } catch (error) {
+    //     console.error('Error al obtener noticias:', error);
+    // }
 });
 
 </script>

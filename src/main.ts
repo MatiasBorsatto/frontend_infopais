@@ -6,8 +6,8 @@ import PrimeVue from 'primevue/config';
 import Lara from '@primevue/themes/lara';
 import { definePreset } from '@primevue/themes'
 import Toast from 'primevue/toast';
-
 import ToastService from 'primevue/toastservice';
+import {createPinia} from 'pinia'
 
 const CustomLara = definePreset(Lara, {
   semantic: {
@@ -33,6 +33,7 @@ const CustomLara = definePreset(Lara, {
 });
 
 const app = createApp(App);
+const pinia = createPinia()
 
 app.use(router)
 app.use(PrimeVue, {
@@ -46,5 +47,6 @@ app.use(PrimeVue, {
 })
 app.use(ToastService)
 app.component('Toast', Toast);
+app.use(pinia)
 
 app.mount('#app')

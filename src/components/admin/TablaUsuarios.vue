@@ -174,16 +174,23 @@ import Select from 'primevue/select';
 import Tag from 'primevue/tag';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
-import usuarioService from '../../services/usuario.service';
 import CrearUsuario from '../admin/CrearUsuario.vue';
+import { useUsuarioStore } from '../../stores/usuario.store.js'
 
 const customers = ref();
+
 const editingRows = ref([]);
+
 const userDialog = ref(false);
+
 const deleteUserDialog = ref(false);
+
 const usuario = ref({});
+
 const password = ref('')
+
 const password2 = ref('')
+
 const submitted = ref(false);
 
 const filters = ref({
@@ -199,9 +206,11 @@ const statuses = ref([
 
 const loading = ref(true);
 
+const usuarioStore = useUsuarioStore()
+
 onMounted(async () => {
     try {
-        customers.value = await usuarioService.obtenerUsuarios();
+        customers.value = await usuarioStore.obtenerUsuarios();
         console.log("Usuarios cargados:", customers.value);
         loading.value = false;
     } catch (error) {

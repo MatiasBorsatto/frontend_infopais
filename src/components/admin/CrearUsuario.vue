@@ -61,17 +61,17 @@ const roles = ref([
     { name: 'Estandar', rol_id: 1 },
 ]);
 
-const guardarUsuario = async () => {
+const usuario = {
+    nombre: nombre.value,
+    email: email.value,
+    password: password.value,
+    rol_id: rol.value?.rol_id
+};
 
-    const usuario = {
-        nombre: nombre.value,
-        email: email.value,
-        password: password.value,
-        rol_id: rol.value?.rol_id
-    };
+// const guardarUsuario = async () => {
 
-    const guardarUsuario = await authService.register(usuario)
-    console.log("Usuario creado:", usuario);
-    visible.value = false;
-}
+//     const guardarUsuario = await authService.register(usuario)
+//     console.log("Usuario creado:", usuario);
+//     visible.value = false;
+// }
 </script>

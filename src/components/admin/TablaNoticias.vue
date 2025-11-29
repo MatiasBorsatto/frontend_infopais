@@ -227,22 +227,33 @@ import Button from 'primevue/button';
 import Tag from 'primevue/tag';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
-import noticiaService from '../../services/noticia.service';
 import Editor from 'primevue/editor';
+import { useNoticiaStore } from '../../stores/noticia.store.js'
 
 const toast = useToast();
+
 const dt = ref();
+
 const noticias = ref([]);
+
 const categorias = ref([]);
+
 const subcategorias = ref([]);
+
 const noticiaDialog = ref(false);
+
 const deleteNoticiaDialog = ref(false);
+
 const deleteNoticiasDialog = ref(false);
+
 const noticia = ref({});
+
 const selectedNoticias = ref();
+
 const filters = ref({
     'global': { value: null, matchMode: FilterMatchMode.CONTAINS },
 });
+
 const submitted = ref(false);
 
 const estados = ref([
@@ -251,20 +262,21 @@ const estados = ref([
     { label: 'Borrador', value: 2 }
 ]);
 
+const noticiaStore = useNoticiaStore()
+
 onMounted(async () => {
     try {
         // Cargar noticias
-        const noticiasData = await noticiaService.obtenerNoticias();
+        const noticiasData = await noticiaStore.obtenerNoticias()
         noticias.value = noticiasData;
 
         // Cargar categorías
-        const categoriasResponse = await noticiaService.obtenerCategorias();
+        const categoriasResponse = await noticiaStore.obtenerCategorias()
         // Ajusta según la estructura real de tu respuesta
         categorias.value = categoriasResponse.obtenerCategorias || categoriasResponse;
 
         // Cargar subcategorias
-        const subcategoriasResponse = await noticiaService.obtenerSubcategorias();
-        // Ajusta según la estructura real de tu respuesta
+        const subcategoriasResponse = await noticiaStore.obtenerSubcategorias()
         subcategorias.value = subcategoriasResponse.obtenerSubcategorias || subcategoriasResponse;
 
         console.log('Noticias:', noticias.value);
