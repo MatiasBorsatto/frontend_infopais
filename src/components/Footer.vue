@@ -2,14 +2,14 @@
     <div id="cont-footer">
         <div id="cont-links">
             <div>
-                <img src="../assets/logo_infopais_sin_fondo.png" alt="Logo InfoPais">
+                <img src="/assets/logo_infopais_sin_fondo.png" alt="Logo InfoPais">
 
             </div>
 
             <div id="cont-redes">
                 <p>Seguinos:</p>
-                <a href=""><img src="../assets/facebook-logo.svg" alt=""></a>
-                <a href=""><img src="../assets/instagram-logo.svg" alt=""></a>
+                <a href=""><img src="/assets/facebook-logo.svg" alt=""></a>
+                <a href=""><img src="/assets/instagram-logo.svg" alt=""></a>
             </div>
         </div>
         <hr>
