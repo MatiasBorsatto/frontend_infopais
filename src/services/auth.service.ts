@@ -13,7 +13,7 @@ interface Register {
   password: string;
 }
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = "http://192.168.1.16:3001/api";
 
 
 class AuthService {
