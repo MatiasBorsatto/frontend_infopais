@@ -2,7 +2,7 @@
     <div class="sidebar-content">
         <!-- Header con Logo -->
         <div class="sidebar-header">
-            <img src="../../assets/logo_min_sin_fondo.png" alt="Logo Icono">
+            <img src="/assets/logo_min_sin_fondo.png" alt="Logo Icono">
         </div>
 
         <!-- Menú -->
