@@ -9,7 +9,7 @@
     </div>
     <div class="navbar-2">
         <router-link to="/">
-            <img src="../assets/logo_infopais.png" alt="Imagen Logo">
+            <img src="/assets/logo_infopais.png" alt="Imagen Logo">
         </router-link>
     </div>
     <div class="navbar-3">
