@@ -8,6 +8,7 @@ import { definePreset } from '@primevue/themes'
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import {createPinia} from 'pinia'
+import PiniaPluginPersistedState from 'pinia-plugin-persistedstate';
 
 const CustomLara = definePreset(Lara, {
   semantic: {
@@ -34,6 +35,7 @@ const CustomLara = definePreset(Lara, {
 
 const app = createApp(App);
 const pinia = createPinia()
+pinia.use(PiniaPluginPersistedState)
 
 app.use(router)
 app.use(PrimeVue, {

@@ -341,10 +341,18 @@ const getEstadoSeverity = (estadoId) => {
 
 const openNew = () => {
     noticia.value = {
+        titulo: "",
+        subtitulo: "",
+        contenido: "",
+        by: "",
+        categoria_id: null,
+        subcategoria_id: null,
+        multimedia: "",
         likes: 0,
         dislikes: 0,
         vistas: 0,
-        estado_id: 1
+        estado_id: 1,
+        slug: ""
     };
     submitted.value = false;
     noticiaDialog.value = true;
@@ -355,16 +363,17 @@ const hideDialog = () => {
     submitted.value = false;
 };
 
+
 const saveNoticia = async () => {
     submitted.value = true;
 
-    if (noticia?.value.titulo?.trim()) {
+    if (noticia.value.titulo?.trim()) {
         try {
             if (noticia.value.id_noticia) {
-                // Actualizar noticia existente
-                await noticiaService.actualizarNoticia(noticia.value.id_noticia, noticia.value);
+                await noticiaStore.actualizarNoticia(noticia.value.id_noticia, noticia.value);
                 const index = findIndexById(noticia.value.id_noticia);
                 noticias.value[index] = noticia.value;
+
                 toast.add({
                     severity: 'success',
                     summary: 'Éxito',
@@ -372,10 +381,9 @@ const saveNoticia = async () => {
                     life: 3000
                 });
             } else {
-                // Crear nueva noticia
-                console.log(noticia.value)
-                const nuevaNoticia = await noticiaService.guardarNoticia(noticia.value);
+                const nuevaNoticia = await noticiaStore.guardarNoticia(noticia.value);
                 noticias.value.push(nuevaNoticia);
+
                 toast.add({
                     severity: 'success',
                     summary: 'Éxito',
@@ -386,6 +394,7 @@ const saveNoticia = async () => {
 
             noticiaDialog.value = false;
             noticia.value = {};
+
         } catch (error) {
             console.error('Error al guardar noticia:', error);
             toast.add({
@@ -397,6 +406,8 @@ const saveNoticia = async () => {
         }
     }
 };
+
+
 
 const editNoticia = (noticiaData) => {
     noticia.value = { ...noticiaData };
@@ -410,7 +421,7 @@ const confirmDeleteNoticia = (noticiaData) => {
 
 const deleteNoticia = async () => {
     try {
-        await noticiaService.eliminarNoticia(noticia.value.id_noticia);
+        await noticiaStore.eliminarNoticia(noticia.value.id_noticia);
         noticias.value = noticias.value.filter(val => val.id_noticia !== noticia.value.id_noticia);
         deleteNoticiaDialog.value = false;
         noticia.value = {};

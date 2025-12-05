@@ -28,6 +28,11 @@ class NoticiaService {
     return data;
   }
 
+  async eliminarNoticia(id: number): Promise<Noticia> {
+    const { data } = await axios.delete(`${API_URL}/eliminar/${id}`);
+    return data;
+  }
+
   async obtenerCategorias(){
     const { data } = await axios.get(`${API_URL}/obtenerCat`);
     return data;

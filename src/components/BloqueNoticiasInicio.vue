@@ -27,8 +27,7 @@
 <script setup lang="ts">
 import BloqueNoticia from './BloqueNoticia.vue';
 
-import { ref, onMounted } from 'vue';
-import noticiaService from '../services/noticia.service';
+import { ref } from 'vue';
 import type { Noticia } from '../services/noticia.service';
 
 const resNoticias = ref<Noticia[]>([]);
