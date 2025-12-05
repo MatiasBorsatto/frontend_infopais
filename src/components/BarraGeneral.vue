@@ -19,7 +19,7 @@ import type { Noticia } from '../services/noticia.service';
 
 const resNoticias = ref<Noticia[]>([]);
 
-const multimedia = "/public/assets/test.webp"
+const multimedia = "/assets/test.webp"
 
 onMounted(async () => {
     // try {
