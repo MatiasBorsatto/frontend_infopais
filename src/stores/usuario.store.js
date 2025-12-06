@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import usuarioService from "../services/usuario.service";
+import authService from "../services/auth.service";
 
 export const useUsuarioStore = defineStore(
   "Usuarios",
@@ -16,7 +17,7 @@ export const useUsuarioStore = defineStore(
 
     const guardarUsuario = async (usuario) => {
       try {
-        const guardarUsuario = await authService.register(usuario);
+        const guardarUsuario = await authService.registerAdmin(usuario);
         return guardarUsuario;
       } catch (error) {
         console.error("Error al guardar usuarios:", error);

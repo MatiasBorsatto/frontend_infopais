@@ -13,7 +13,16 @@ interface Register {
   password: string;
 }
 
-const API_URL = "http://192.168.1.16:3001/api";
+interface RegisterAdmin {
+  nombre:string;
+  email: string;
+  password: string;
+  rol_id: number;
+}
+
+const API_URL = "http://localhost:3001/api";
+
+//const API_URL = "http://192.168.1.16:3001/api";    En produccion
 
 
 class AuthService {
@@ -24,6 +33,12 @@ class AuthService {
   }
 
   async register(usuario: Register) {
+
+    const { data } = await axios.post(`${API_URL}/register`, usuario);
+    return data;
+  }
+
+  async registerAdmin(usuario: RegisterAdmin) {
 
     const { data } = await axios.post(`${API_URL}/register`, usuario);
     return data;

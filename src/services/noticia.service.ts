@@ -15,7 +15,10 @@ export interface Noticia {
   slug: string;
 }
 
-const API_URL = "http://localhost:3000/api";
+
+const API_URL = "http://localhost:3001/api";
+
+//const API_URL = "http://192.168.1.16:3001/api";    En produccion
 
 class NoticiaService {
   async obtenerNoticias(): Promise<Noticia[]> {

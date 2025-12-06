@@ -58,6 +58,8 @@
 import { useRouter } from 'vue-router'
 import Avatar from 'primevue/avatar'
 import authService from '../../services/auth.service'
+import Swal from 'sweetalert2'
+
 
 const router = useRouter()
 
@@ -68,8 +70,26 @@ const handleLogout = async () => {
     try {
         await authService.logout()  // Ejecuta la petición al backend
 
-        router.push({ name: 'login' })
-        emit('close')
+        Swal.fire({
+            title: "Estas seguro que queres cerrar sesion?",
+            text: "Si cerras sesion, saldras de la plataforma",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Si"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Sesion Cerrada!",
+                    text: "Has cerrado sesion",
+                    icon: "success"
+                });
+
+                router.push({ name: 'login' })
+                emit('close')
+            }
+        });
     } catch (error) {
         console.error("Error al cerrar sesión:", error)
     }

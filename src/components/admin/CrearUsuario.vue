@@ -48,6 +48,9 @@ import InputText from 'primevue/inputtext';
 import Select from 'primevue/select';
 import usuarioService from '../../services/usuario.service';
 import authService from '../../services/auth.service';
+import { useUsuarioStore } from '../../stores/usuario.store.js'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
 
 
 const visible = ref(false);
@@ -56,22 +59,37 @@ const email = ref('');
 const password = ref('');
 const rol = ref();
 
+const toast = useToast()
+
 const roles = ref([
     { name: 'Admin', rol_id: 2 },
     { name: 'Estandar', rol_id: 1 },
 ]);
 
-const usuario = {
-    nombre: nombre.value,
-    email: email.value,
-    password: password.value,
-    rol_id: rol.value?.rol_id
-};
+const usuarioStore = useUsuarioStore()
 
-// const guardarUsuario = async () => {
+const guardarUsuario = async () => {
 
-//     const guardarUsuario = await authService.register(usuario)
-//     console.log("Usuario creado:", usuario);
-//     visible.value = false;
-// }
+    const usuario = {
+        nombre: nombre.value,
+        email: email.value,
+        password: password.value,
+        rol_id: rol.value?.rol_id,
+        fecha_nac: '01/01/1001'
+    };
+
+    await usuarioStore.guardarUsuario(usuario)
+    visible.value = false;
+
+    toast.add({
+        severity: 'success',
+        summary: 'Éxito',
+        detail: 'Usuario creado correctamente',
+        life: 3000
+    })
+
+
+
+    console.log("Usuario creado:", usuario);
+}
 </script>

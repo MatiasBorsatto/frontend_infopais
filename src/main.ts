@@ -10,6 +10,9 @@ import ToastService from 'primevue/toastservice';
 import {createPinia} from 'pinia'
 import PiniaPluginPersistedState from 'pinia-plugin-persistedstate';
 
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
 const CustomLara = definePreset(Lara, {
   semantic: {
     primary: {
@@ -50,5 +53,6 @@ app.use(PrimeVue, {
 app.use(ToastService)
 app.component('Toast', Toast);
 app.use(pinia)
+app.use(VueSweetalert2);
 
 app.mount('#app')
