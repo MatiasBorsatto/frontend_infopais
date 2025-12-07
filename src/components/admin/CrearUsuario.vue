@@ -4,7 +4,7 @@
 
         <Dialog v-model:visible="visible" header="Crear Usuario">
             <div class="flex flex-column gap-3" style=" width: 25rem; display: flex;
-        flex-direction: column;">
+        flex-direction: column;" :validar="validacion">
 
                 <span class="text-surface-500 block">Ingrese los datos:</span>
 
@@ -51,6 +51,8 @@ import authService from '../../services/auth.service';
 import { useUsuarioStore } from '../../stores/usuario.store.js'
 import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
+import { zodResolver } from '@primevue/forms/resolvers/zod'
+import { z } from 'zod'
 
 
 const visible = ref(false);
@@ -67,6 +69,13 @@ const roles = ref([
 ]);
 
 const usuarioStore = useUsuarioStore()
+
+const props = defineProps({
+    onRefresh: {
+        type: Function,
+        required: true
+    }
+})
 
 const guardarUsuario = async () => {
 
@@ -88,8 +97,19 @@ const guardarUsuario = async () => {
         life: 3000
     })
 
-
+    await props.onRefresh()
 
     console.log("Usuario creado:", usuario);
 }
+
+const validacion = z.object({
+    nombre: z.string().min(1, "El nombre es obligatorio."),
+    email: z.string().email("Debe ser un email válido."),
+    password: z.string().min(6, "La contraseña debe tener al menos 6 caracteres."),
+    rol: z.object({
+        name: z.string(),
+        rol_id: z.number(),
+    }, "Debes seleccionar un rol")
+});
+
 </script>

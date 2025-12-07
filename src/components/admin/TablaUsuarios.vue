@@ -88,7 +88,11 @@
             <Column :exportable="false" style="min-width: 20%" :showFilterMenu="false">
 
                 <template #filter>
-                    <CrearUsuario />
+                    <div style="display: flex; flex-direction: row; gap: 1rem;">
+                        <CrearUsuario />
+                        <RefreshButtonUsuarios :onRefresh="cargarUsuarios" />
+
+                    </div>
                 </template>
                 <template #body="slotProps">
                     <Button icon="pi pi-pencil" variant="outlined" rounded class="mr-2"
@@ -96,6 +100,7 @@
                     <Button icon="pi pi-trash" variant="outlined" rounded severity="danger"
                         @click="confirmDeleteUser(slotProps.data)" />
                 </template>
+
             </Column>
 
         </DataTable>
@@ -176,6 +181,10 @@ import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import CrearUsuario from '../admin/CrearUsuario.vue';
 import { useUsuarioStore } from '../../stores/usuario.store.js'
+import Toast from 'primevue/toast'
+import { useToast } from 'primevue/usetoast'
+import RefreshButtonUsuarios from './RefreshButtonUsuarios.vue'
+
 
 const customers = ref();
 
@@ -208,11 +217,20 @@ const loading = ref(true);
 
 const usuarioStore = useUsuarioStore()
 
+const toast = useToast()
+
+const tablaRef = ref(null)
+
+
+const cargarUsuarios = async () => {
+    customers.value = await usuarioStore.obtenerUsuarios();
+    console.log("Usuarios cargados:", customers.value);
+    loading.value = false;
+}
+
 onMounted(async () => {
     try {
-        customers.value = await usuarioStore.obtenerUsuarios();
-        console.log("Usuarios cargados:", customers.value);
-        loading.value = false;
+        cargarUsuarios()
     } catch (error) {
         console.error("Error al obtener usuarios:", error);
         loading.value = false;
@@ -275,10 +293,25 @@ const confirmDeleteUser = (data) => {
 
 const deleteUser = async () => {
     try {
-        await usuarioService.eliminarUsuario(usuario.value.id_usuario);
+        const responseEliminar = await usuarioStore.eliminarUsuario(usuario.value.id_usuario);
         customers.value = customers.value.filter(u => u.id_usuario !== usuario.value.id_usuario);
-        deleteUserDialog.value = false;
-        usuario.value = {};
+
+        console.log(responseEliminar)
+
+        if (responseEliminar.mensaje === 'El usuario se elimino correctamente') {
+            toast.add({
+                severity: 'success',
+                summary: 'Éxito',
+                detail: 'Usuario eliminado correctamente',
+                life: 3000
+            })
+
+            deleteUserDialog.value = false;
+            usuario.value = {};
+        } else {
+            console.error('Error al eliminar usuario')
+        }
+
     } catch (error) {
         console.error("Error al eliminar usuario:", error);
     }

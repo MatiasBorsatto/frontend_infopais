@@ -24,11 +24,21 @@ export const useUsuarioStore = defineStore(
       }
     };
 
+    const eliminarUsuario = async (id) => {
+      try {
+        const eliminarUsuario = await usuarioService.eliminarUsuario(id);
+        return eliminarUsuario;
+      } catch (error) {
+        console.error("Error al eliminar usuario:", error);
+      }
+    };
+
     //Para poder compartirlas es necesario retornarlas, por ende dentro del ultimo return se indica las funciones / variables que se van a compartir en el resto del codigo
 
     return {
       obtenerUsuarios,
       guardarUsuario,
+      eliminarUsuario,
     };
   },
   {
