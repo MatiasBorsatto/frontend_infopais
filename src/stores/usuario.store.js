@@ -18,9 +18,12 @@ export const useUsuarioStore = defineStore(
     const guardarUsuario = async (usuario) => {
       try {
         const guardarUsuario = await authService.registerAdmin(usuario);
+        console.log(guardarUsuario);
+
         return guardarUsuario;
       } catch (error) {
         console.error("Error al guardar usuarios:", error);
+        throw error;
       }
     };
 

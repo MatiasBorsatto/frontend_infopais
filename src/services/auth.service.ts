@@ -41,6 +41,7 @@ class AuthService {
   async registerAdmin(usuario: RegisterAdmin) {
 
     const { data } = await axios.post(`${API_URL}/register`, usuario);
+
     return data;
   }
 

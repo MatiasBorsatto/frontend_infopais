@@ -78,28 +78,47 @@ const props = defineProps({
 })
 
 const guardarUsuario = async () => {
+    try {
 
-    const usuario = {
-        nombre: nombre.value,
-        email: email.value,
-        password: password.value,
-        rol_id: rol.value?.rol_id,
-        fecha_nac: '01/01/1001'
-    };
+        const usuario = {
+            nombre: nombre.value,
+            email: email.value,
+            password: password.value,
+            rol_id: rol.value?.rol_id,
+            fecha_nac: '01/01/1001'
+        };
 
-    await usuarioStore.guardarUsuario(usuario)
-    visible.value = false;
 
-    toast.add({
-        severity: 'success',
-        summary: 'Éxito',
-        detail: 'Usuario creado correctamente',
-        life: 3000
-    })
+        const response = await usuarioStore.guardarUsuario(usuario)
 
-    await props.onRefresh()
 
-    console.log("Usuario creado:", usuario);
+        visible.value = false;
+
+        toast.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: 'Usuario creado correctamente',
+            life: 3000
+        })
+
+        //await props.onRefresh()
+
+        console.log("Usuario creado:", usuario);
+
+    } catch (error) {
+
+        console.log("La respuesta es", error)
+
+        visible.value = true;
+
+        toast.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: error.response?.data?.error || 'Error al crear usuario',
+            life: 3000
+        });
+    }
+
 }
 
 const validacion = z.object({
