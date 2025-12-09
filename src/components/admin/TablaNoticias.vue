@@ -457,7 +457,7 @@ const confirmDeleteSelected = () => {
 const deleteSelectedNoticias = async () => {
     try {
         const deletePromises = selectedNoticias.value.map(n =>
-            noticiaService.eliminarNoticia(n.id_noticia)
+            noticiaStore.eliminarNoticia(n.id_noticia)
         );
         await Promise.all(deletePromises);
 

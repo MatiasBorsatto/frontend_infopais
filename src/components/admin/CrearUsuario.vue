@@ -77,6 +77,15 @@ const props = defineProps({
     }
 })
 
+const validateEmail = (email) => {
+    return String(email)
+        .toLowerCase()
+        .match(
+            /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+};
+
+
 const guardarUsuario = async () => {
     try {
 
@@ -87,6 +96,29 @@ const guardarUsuario = async () => {
             rol_id: rol.value?.rol_id,
             fecha_nac: '01/01/1001'
         };
+
+        if (validateEmail(usuario.email) === null) {
+            toast.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'Ingrese un email valido',
+                life: 3000
+            })
+
+            return visible.value = true;
+        }
+
+        if (usuario.password.length < 6) {
+            toast.add({
+                severity: 'error',
+                summary: 'Error',
+                detail: 'La contraseña debe ser mayor a 6 digitos',
+                life: 3000
+            })
+
+            return visible.value = true;
+
+        }
 
 
         const response = await usuarioStore.guardarUsuario(usuario)
