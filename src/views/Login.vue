@@ -1,29 +1,50 @@
 <template>
     <Toast />
-    <Form v-slot="formSlot" :resolver="resolver" :initialValues="initialValues" @submit="login"
-        class="flex justify-center flex-col gap-4">
-        <div class="flex flex-col gap-1">
-            <InputText name="email" type="text" placeholder="email" />
-            <Message v-if="(formSlot?.states as any)?.email?.invalid" severity="error" size="small" variant="simple">
-                {{ (formSlot.states as any).email.error?.message }}
-            </Message>
+    <div class="login-cont">
+        <div class="login-content">
+            <Form v-slot="formSlot" :resolver="resolver" :initialValues="initialValues" @submit="login"
+                class="flex justify-center flex-col gap-4">
+                <div class="flex flex-col gap-1">
+                    <IftaLabel>
+                        <InputText id="email" name="email" type="text" placeholder="Ej. pedrito@gmail.com" />
+                        <label for="email">Ingrese su correo</label>
+                    </IftaLabel>
+
+                    <Message v-if="(formSlot?.states as any)?.email?.invalid" severity="error" size="small"
+                        variant="simple">
+                        {{ (formSlot.states as any).email.error?.message }}
+                    </Message>
+                </div>
+
+                <div class="flex flex-col gap-1">
+                    <IftaLabel>
+                        <InputText name="password" type="password" placeholder="Ej. Pass123" />
+                        <label for="email">Ingrese su contraseña</label>
+                    </IftaLabel>
+                    <Message v-if="(formSlot?.states as any)?.password?.invalid" severity="error" size="small"
+                        variant="simple">
+                        {{ (formSlot.states as any).password.error?.message }}
+                    </Message>
+                </div>
+
+                <Button type="submit" severity="secondary" label="Ingresar" :loading="loading" />
+
+            </Form>
+            <div style="display: flex; align-items: center;">
+                <img src="../../public/assets/logo_infopais_sin_fondo.png" alt="">
+            </div>
         </div>
 
-        <div class="flex flex-col gap-1">
-            <InputText name="password" type="password" placeholder="password" />
-            <Message v-if="(formSlot?.states as any)?.password?.invalid" severity="error" size="small" variant="simple">
-                {{ (formSlot.states as any).password.error?.message }}
-            </Message>
-        </div>
+    </div>
 
-        <Button type="submit" severity="secondary" label="Submit" />
-    </Form>
+
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import Form from '@primevue/forms/form'
+import { Form } from '@primevue/forms';
+import IftaLabel from 'primevue/iftalabel';
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import Message from 'primevue/message'
@@ -41,6 +62,8 @@ const initialValues = ref({
     password: ''
 })
 
+const loading = ref(false);
+
 const resolver = zodResolver(
     z.object({
         email: z.string().min(1, { message: 'Email requerido.' }).email({ message: 'Email inválido.' }),
@@ -49,6 +72,9 @@ const resolver = zodResolver(
 )
 
 const login = async (event: any) => {
+
+    loading.value = true;
+
     const { values, valid } = event
 
     // Si el formulario no es válido, no continuar
@@ -76,6 +102,8 @@ const login = async (event: any) => {
         // Detectar correctamente el rol_id
         const rolId = data.rol || data.user?.rol || data.usuario?.rol
 
+        loading.value = false;
+
         toast.add({
             severity: 'success',
             summary: 'Éxito',
@@ -94,6 +122,8 @@ const login = async (event: any) => {
             detail: msg,
             life: 3000
         })
+        loading.value = false;
+
     }
 }
 </script>
@@ -105,7 +135,49 @@ form {
     flex-direction: column;
     justify-content: center;
     gap: 2rem;
-    height: calc(100vh - 10rem);
     padding: 2rem;
+}
+
+button {
+    width: 15rem;
+}
+
+input {
+    width: 25rem;
+}
+
+.login-cont {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100dvh;
+    width: 100dvw;
+    background-color: rgb(228, 228, 228);
+
+    animation: blur-in .5s linear both
+}
+
+@keyframes blur-in {
+    0% {
+        filter: blur(12px);
+        opacity: 0
+    }
+
+    100% {
+        filter: blur(0);
+        opacity: 1
+    }
+}
+
+.login-content {
+    display: grid;
+    grid-template-columns: 1fr .9fr;
+    padding: 2rem;
+    height: 30rem;
+    background-color: #3b82f666;
+    width: 80rem;
+    border-radius: 2rem;
+    box-shadow: 0rem 1rem .8rem rgb(180, 180, 180);
+    border: 1px solid #0062ff66;
 }
 </style>

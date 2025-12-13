@@ -370,7 +370,7 @@ const saveNoticia = async () => {
     if (noticia.value.titulo?.trim()) {
         try {
             if (noticia.value.id_noticia) {
-                await noticiaStore.actualizarNoticia(noticia.value.id_noticia, noticia.value);
+                await noticiaStore.actualizarNoticia(noticia.value);
                 const index = findIndexById(noticia.value.id_noticia);
                 noticias.value[index] = noticia.value;
 

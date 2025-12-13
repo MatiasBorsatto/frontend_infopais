@@ -27,9 +27,11 @@ export const useNoticiaStore = defineStore(
 
     const actualizarNoticia = async (noticia) => {
       try {
-        const id = noticia.id_noticia;
-        const noticia = noticia.noticia;
-        const data = await noticiaService.actualizarNoticia(id, noticia);
+        const { id_noticia, ...noticiaCont } = noticia;
+        const data = await noticiaService.actualizarNoticia(
+          id_noticia,
+          noticiaCont
+        );
         return data;
       } catch (error) {
         console.error("Error al actualizar noticia:", error);

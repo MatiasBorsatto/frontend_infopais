@@ -19,6 +19,11 @@ class UsuarioService {
     return data.obtenerUsuarios;
   }
 
+  async obtenerUsuario(id: number): Promise<Usuario[]> {
+    const { data } = await axios.get(`${API_URL}/obtenerUser/:${id}`);
+    return data;
+  }
+
  async actualizarUsuario(id: number, newData: object) {
     const { data } = await axios.put(`${API_URL}/actualizarUsuario/${id}`, newData);
     return data;

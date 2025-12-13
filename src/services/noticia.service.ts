@@ -36,6 +36,11 @@ class NoticiaService {
     return data;
   }
 
+  async actualizarNoticia(id_noticia: number, noticiaCont: Noticia): Promise<Noticia[]> {
+    const { data } = await axios.put(`${API_URL}/actualizar/${id_noticia}`, {noticia: noticiaCont});
+    return data;
+  }
+
   async obtenerCategorias(){
     const { data } = await axios.get(`${API_URL}/obtenerCat`);
     return data;

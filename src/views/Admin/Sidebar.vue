@@ -43,8 +43,6 @@
         <!-- Footer con Usuario -->
         <div class="sidebar-footer">
             <div class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors">
-                <Avatar image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png" shape="circle"
-                    size="large" />
                 <div class="flex flex-col">
                     <span class="font-semibold text-gray-900">Amy Elsner</span>
                     <span class="text-sm text-gray-500">Admin</span>
@@ -56,15 +54,24 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import Avatar from 'primevue/avatar'
 import authService from '../../services/auth.service'
 import Swal from 'sweetalert2'
-
+import { onMounted } from 'vue'
+import usuarioService from '../../services/usuario.service'
 
 const router = useRouter()
 
-const emit = defineEmits(['close'])
+const nombreUser = ''
 
+onMounted(async () => {
+    const datosCookie = JSON.parse(decodeURIComponent(document.cookie))
+
+    console.log(datosCookie)
+    //const id = 
+    //const usuario = await usuarioService.obtenerUsuario(id)
+})
+
+const emit = defineEmits(['close'])
 
 const handleLogout = async () => {
     try {

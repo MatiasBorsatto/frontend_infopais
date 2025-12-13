@@ -31,7 +31,7 @@ const CustomLara = definePreset(Lara, {
   components: {
     focusring: {
       color: '{blue.500}',
-      shadow: '0 0 0 0.2rem rgba(59,130,246,0.4)'
+      shadow: '0 0 0 0.2rem #3b82f666'
     }
   }
 });
