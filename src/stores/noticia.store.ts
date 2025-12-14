@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import noticiaService from "../services/noticia.service.ts";
+import type { Noticia } from "../types.ts";
+
 
 export const useNoticiaStore = defineStore(
   "Noticias",
@@ -15,7 +17,7 @@ export const useNoticiaStore = defineStore(
       }
     };
 
-    const guardarNoticia = async (noticia) => {
+    const guardarNoticia = async (noticia: Noticia) => {
       try {
         const data = await noticiaService.guardarNoticia(noticia);
         return data;
@@ -25,11 +27,11 @@ export const useNoticiaStore = defineStore(
       }
     };
 
-    const actualizarNoticia = async (noticia) => {
+    const actualizarNoticia = async (noticia: Noticia) => {
       try {
         const { id_noticia, ...noticiaCont } = noticia;
         const data = await noticiaService.actualizarNoticia(
-          id_noticia,
+          id_noticia as number,
           noticiaCont
         );
         return data;
@@ -39,7 +41,7 @@ export const useNoticiaStore = defineStore(
       }
     };
 
-    const eliminarNoticia = async (id) => {
+    const eliminarNoticia = async (id: number) => {
       try {
         const data = await noticiaService.eliminarNoticia(id);
         return data;

@@ -1,13 +1,5 @@
 import axios from "axios";
-
-export interface Usuario {
-  id?: number;
-  nombre: string;
-  email: string;
-  fecha_nac?: string;
-  rol_id?: number;
-}
-
+import type Usuario from '../types.ts'
 
 const API_URL = "http://localhost:3001/api";
 

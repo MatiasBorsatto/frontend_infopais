@@ -9,13 +9,13 @@
         </div>
         <div id="not-der-cont">
 
-            <router-link :to="resNoticias[2]?.slug ?? ''">
-                <BloqueNoticia :titulo="resNoticias[2]?.titulo ?? ''" :multimedia="multimedia"
+            <router-link :to="resNoticias[1]?.slug ?? ''">
+                <BloqueNoticia :titulo="resNoticias[1]?.titulo ?? ''" :multimedia="multimedia"
                     :custom-styles-title="{ fontSize: '1.5rem' }" :custom-styles-subtitle="{ fontSize: '1rem' }" />
             </router-link>
 
-            <router-link :to="resNoticias[3]?.slug ?? ''">
-                <BloqueNoticia :titulo="resNoticias[3]?.titulo ?? ''" :multimedia="multimedia"
+            <router-link :to="resNoticias[2]?.slug ?? ''">
+                <BloqueNoticia :titulo="resNoticias[2]?.titulo ?? ''" :multimedia="multimedia"
                     :custom-styles-title="{ fontSize: '1.5rem' }" :custom-styles-subtitle="{ fontSize: '1rem' }" />
             </router-link>
         </div>
@@ -27,22 +27,28 @@
 <script setup lang="ts">
 import BloqueNoticia from './BloqueNoticia.vue';
 
-import { ref } from 'vue';
-import type { Noticia } from '../services/noticia.service';
+import { ref, onMounted } from 'vue';
+import type { Noticia } from '../types.ts';
+import { useNoticiaStore } from '../stores/noticia.store.ts'
+
+const noticiaStore = useNoticiaStore()
 
 const resNoticias = ref<Noticia[]>([]);
 
-const multimedia = "/src/assets/test.webp"
+const multimedia = "/assets/test.webp"
 
-// onMounted(async () => {
-//     try {
-//         const noticias = await noticiaService.obtenerNoticias();
-//         resNoticias.value = noticias;
-//         console.log('Noticias cargadas:', resNoticias.value);
-//     } catch (error) {
-//         console.error('Error al obtener noticias:', error);
-//     }
-// });
+const obtenerNoticias = async () => {
+    try {
+        const noticias = await noticiaStore.obtenerNoticias()
+        console.log(noticias)
+        resNoticias.value = noticias;
+        console.log('Noticias cargadas:', resNoticias.value);
+    } catch (error) {
+        console.error('Error al obtener noticias:', error);
+    }
+}
+
+obtenerNoticias()
 
 </script>
 

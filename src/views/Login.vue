@@ -31,7 +31,7 @@
 
             </Form>
             <div style="display: flex; align-items: center;">
-                <img src="../../public/assets/logo_infopais_sin_fondo.png" alt="">
+                <img src="/assets/logo_infopais_sin_fondo.png" alt="">
             </div>
         </div>
 

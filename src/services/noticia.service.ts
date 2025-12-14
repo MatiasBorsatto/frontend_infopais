@@ -1,19 +1,5 @@
 import axios from "axios";
-
-export interface Noticia {
-  id?: number;
-  titulo: string;
-  subtitulo: string;
-  contenido: string;
-  likes?: number;
-  by: string;
-  dislikes?: number;
-  id_categoria?: number;
-  id_subcategoria?: number;
-  vistas?: number;
-  multimedia: string; // URL de imagen o video
-  slug: string;
-}
+import type {Noticia} from '../types.ts'
 
 
 const API_URL = "http://localhost:3001/api";
@@ -26,7 +12,7 @@ class NoticiaService {
     return data.obtenerNoticias;
   }
 
-  async guardarNoticia(noticia: Noticia): Promise<Noticia[]> {
+ async guardarNoticia(noticia: Noticia): Promise<Noticia[]> {
     const { data } = await axios.post(`${API_URL}/guardar`, noticia);
     return data;
   }
