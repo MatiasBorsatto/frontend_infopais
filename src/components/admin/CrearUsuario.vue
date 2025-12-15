@@ -40,18 +40,14 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
 import InputText from 'primevue/inputtext';
 import Select from 'primevue/select';
-import usuarioService from '../../services/usuario.service';
-import authService from '../../services/auth.service';
 import { useUsuarioStore } from '../../stores/usuario.store.js'
-import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
-import { zodResolver } from '@primevue/forms/resolvers/zod'
 import { z } from 'zod'
 
 
@@ -77,7 +73,7 @@ const props = defineProps({
     }
 })
 
-const validateEmail = (email) => {
+const validateEmail = (email: string) => {
     return String(email)
         .toLowerCase()
         .match(
@@ -121,7 +117,7 @@ const guardarUsuario = async () => {
         }
 
 
-        const response = await usuarioStore.guardarUsuario(usuario)
+        await usuarioStore.guardarUsuario(usuario)
 
 
         visible.value = false;
@@ -137,7 +133,7 @@ const guardarUsuario = async () => {
 
         console.log("Usuario creado:", usuario);
 
-    } catch (error) {
+    } catch (error: any) {
 
         console.log("La respuesta es", error)
 

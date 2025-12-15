@@ -48,7 +48,7 @@ const obtenerNoticias = async () => {
     }
 }
 
-obtenerNoticias()
+obtenerNoticias()   //Revisar si lo mejor es que se cargue una sola vez por sesion o que cada vez que se visite el componente se ejecute la funcion
 
 </script>
 

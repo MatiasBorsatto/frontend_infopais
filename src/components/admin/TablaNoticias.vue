@@ -7,7 +7,7 @@
                     @click="confirmDeleteSelected" :disabled="!selectedNoticias || !selectedNoticias.length" />
             </template>
             <template #end>
-                <Button label="Exportar" icon="pi pi-upload" severity="secondary" @click="exportCSV($event)" />
+                <Button label="Exportar" icon="pi pi-upload" severity="secondary" @click="exportCSV" />
             </template>
         </Toolbar>
 
@@ -159,18 +159,18 @@
             <div class="grid grid-cols-12 gap-4">
                 <div class="col-span-6">
                     <label for="categoria" class="block font-bold mb-3">Categoría</label>
-                    <Select id="categoria" v-model="noticia.categoria_id" :options="categorias" optionLabel="nombre"
+                    <Select id="categoria" v-model="noticia.id_categoria" :options="categorias" optionLabel="nombre"
                         optionValue="id_categoria" placeholder="Seleccione una Categoría" fluid />
                 </div>
                 <div class="col-span-6">
                     <label for="subcategoria" class="block font-bold mb-3">Subcategoría</label>
-                    <Select id="subcategoria" v-model="noticia.subcategoria_id" :options="subcategorias"
+                    <Select id="subcategoria" v-model="noticia.id_subcategoria" :options="subcategorias"
                         optionLabel="nombre" optionValue="id_subcategoria" placeholder="Seleccione una Subcategoría"
                         fluid />
                 </div>
                 <div class="col-span-6">
                     <label for="estado" class="block font-bold mb-3">Estado</label>
-                    <Select id="estado" v-model="noticia.estado_id" :options="estados" optionLabel="label"
+                    <Select id="estado" v-model="noticia.id_estado" :options="estados" optionLabel="label"
                         optionValue="value" placeholder="Seleccione un Estado" fluid />
                 </div>
             </div>
@@ -212,7 +212,7 @@
     </Dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { FilterMatchMode } from '@primevue/core/api';
 import { useToast } from 'primevue/usetoast';
@@ -222,23 +222,23 @@ import Column from 'primevue/column';
 import Dialog from 'primevue/dialog';
 import Select from 'primevue/select';
 import Toolbar from 'primevue/toolbar';
-import Textarea from 'primevue/textarea';
 import Button from 'primevue/button';
 import Tag from 'primevue/tag';
 import IconField from 'primevue/iconfield';
 import InputIcon from 'primevue/inputicon';
 import Editor from 'primevue/editor';
 import { useNoticiaStore } from '../../stores/noticia.store.js'
+import type { Categoria, Noticia, Subcategoria } from '../../types.js';
 
 const toast = useToast();
 
 const dt = ref();
 
-const noticias = ref([]);
+const noticias = ref<Noticia[]>([]);
 
-const categorias = ref([]);
+const categorias = ref<Categoria[]>([]);
 
-const subcategorias = ref([]);
+const subcategorias = ref<Subcategoria[]>([]);
 
 const noticiaDialog = ref(false);
 
@@ -246,7 +246,21 @@ const deleteNoticiaDialog = ref(false);
 
 const deleteNoticiasDialog = ref(false);
 
-const noticia = ref({});
+const noticia = ref<Noticia>({
+    id_noticia: 0,
+    titulo: '',
+    subtitulo: '',
+    contenido: '',
+    by: '',
+    id_categoria: 0,
+    id_subcategoria: 0,
+    multimedia: '',
+    likes: 0,
+    dislikes: 0,
+    vistas: 0,
+    id_estado: 1,
+    slug: '',
+});
 
 const selectedNoticias = ref();
 
@@ -293,23 +307,23 @@ onMounted(async () => {
     }
 });
 
-const getCategoriaNombre = (categoriaId) => {
-    console.log('Buscando categoría:', categoriaId);
+const getCategoriaNombre = (id: number) => {
+    console.log('Buscando categoría:', id);
     console.log('Categorías disponibles:', categorias.value);
 
-    const categoria = categorias.value.find(c => c.id_categoria === categoriaId);
+    const categoria = categorias.value.find(c => c.id === id);
     return categoria ? categoria.nombre : 'Sin categoría';
 };
 
-const getSubcategoriaNombre = (subcategoriaId) => {
-    console.log('Buscando subcategoría:', subcategoriaId);
+const getSubcategoriaNombre = (id: number) => {
+    console.log('Buscando subcategoría:', id);
     console.log('Subcategorías disponibles:', subcategorias.value);
 
-    const subcategoria = subcategorias.value.find(c => c.id_subcategoria === subcategoriaId);
+    const subcategoria = subcategorias.value.find(c => c.id === id);
     return subcategoria ? subcategoria.nombre : 'Sin subcategoría';
 };
 
-const formatDate = (dateString) => {
+const formatDate = (dateString: string) => {
     if (!dateString) return '';
     const date = new Date(dateString);
     return date.toLocaleDateString('es-AR', {
@@ -321,12 +335,12 @@ const formatDate = (dateString) => {
     });
 };
 
-const getEstadoLabel = (estadoId) => {
+const getEstadoLabel = (estadoId: number) => {
     const estado = estados.value.find(e => e.value === estadoId);
     return estado ? estado.label : 'Desconocido';
 };
 
-const getEstadoSeverity = (estadoId) => {
+const getEstadoSeverity = (estadoId: number) => {
     switch (estadoId) {
         case 1:
             return 'success';
@@ -341,17 +355,18 @@ const getEstadoSeverity = (estadoId) => {
 
 const openNew = () => {
     noticia.value = {
+        id_noticia: 0,
         titulo: "",
         subtitulo: "",
         contenido: "",
         by: "",
-        categoria_id: null,
-        subcategoria_id: null,
+        id_categoria: 0,
+        id_subcategoria: 0,
         multimedia: "",
         likes: 0,
         dislikes: 0,
         vistas: 0,
-        estado_id: 1,
+        id_estado: 1,
         slug: ""
     };
     submitted.value = false;
@@ -382,7 +397,11 @@ const saveNoticia = async () => {
                 });
             } else {
                 const nuevaNoticia = await noticiaStore.guardarNoticia(noticia.value);
-                noticias.value.push(nuevaNoticia);
+                if (Array.isArray(nuevaNoticia)) {
+                    noticias.value.push(...nuevaNoticia);
+                } else {
+                    noticias.value.push(nuevaNoticia);
+                }
 
                 toast.add({
                     severity: 'success',
@@ -393,7 +412,21 @@ const saveNoticia = async () => {
             }
 
             noticiaDialog.value = false;
-            noticia.value = {};
+            noticia.value = {
+                id_noticia: 0,
+                titulo: '',
+                subtitulo: '',
+                contenido: '',
+                by: '',
+                id_categoria: 0,
+                id_subcategoria: 0,
+                multimedia: '',
+                likes: 0,
+                dislikes: 0,
+                vistas: 0,
+                id_estado: 1,
+                slug: '',
+            };
 
         } catch (error) {
             console.error('Error al guardar noticia:', error);
@@ -409,12 +442,12 @@ const saveNoticia = async () => {
 
 
 
-const editNoticia = (noticiaData) => {
+const editNoticia = (noticiaData: Noticia) => {
     noticia.value = { ...noticiaData };
     noticiaDialog.value = true;
 };
 
-const confirmDeleteNoticia = (noticiaData) => {
+const confirmDeleteNoticia = (noticiaData: Noticia) => {
     noticia.value = noticiaData;
     deleteNoticiaDialog.value = true;
 };
@@ -424,7 +457,21 @@ const deleteNoticia = async () => {
         await noticiaStore.eliminarNoticia(noticia.value.id_noticia);
         noticias.value = noticias.value.filter(val => val.id_noticia !== noticia.value.id_noticia);
         deleteNoticiaDialog.value = false;
-        noticia.value = {};
+        noticia.value = {
+            id_noticia: 0,
+            titulo: '',
+            subtitulo: '',
+            contenido: '',
+            by: '',
+            id_categoria: 0,
+            id_subcategoria: 0,
+            multimedia: '',
+            likes: 0,
+            dislikes: 0,
+            vistas: 0,
+            id_estado: 1,
+            slug: '',
+        };
         toast.add({
             severity: 'success',
             summary: 'Éxito',
@@ -442,7 +489,7 @@ const deleteNoticia = async () => {
     }
 };
 
-const findIndexById = (id) => {
+const findIndexById = (id: number) => {
     return noticias.value.findIndex(noticia => noticia.id_noticia === id);
 };
 
@@ -456,7 +503,7 @@ const confirmDeleteSelected = () => {
 
 const deleteSelectedNoticias = async () => {
     try {
-        const deletePromises = selectedNoticias.value.map(n =>
+        const deletePromises = selectedNoticias.value.map((n: { id_noticia: number; }) =>
             noticiaStore.eliminarNoticia(n.id_noticia)
         );
         await Promise.all(deletePromises);

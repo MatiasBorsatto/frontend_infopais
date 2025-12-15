@@ -6,6 +6,8 @@
         <BarraGeneral />
     </div>
 
+    <ScrollTop />
+
     <Footer />
 </template>
 
@@ -15,6 +17,7 @@ import BloqueNoticiaInicio from '../components/BloqueNoticiasInicio.vue';
 import Footer from '../components/Footer.vue';
 import Navbar from '../components/Navbar.vue';
 import Divider from 'primevue/divider';
+import ScrollTop from '../components/ScrollTop.vue'
 
 </script>
 

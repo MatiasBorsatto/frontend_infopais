@@ -169,7 +169,7 @@
     </Dialog>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { FilterMatchMode } from '@primevue/core/api';
 import DataTable from 'primevue/datatable';
@@ -179,11 +179,13 @@ import Select from 'primevue/select';
 import Tag from 'primevue/tag';
 import Dialog from 'primevue/dialog';
 import Button from 'primevue/button';
-import CrearUsuario from '../admin/CrearUsuario.vue';
+import CrearUsuario from './CrearUsuario.vue';
 import { useUsuarioStore } from '../../stores/usuario.store.js'
-import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 import RefreshButtonUsuarios from './RefreshButtonUsuarios.vue'
+import type { UsuarioCrear } from '../../types.ts'
+import type Usuario from '../../types.ts'
+import { id } from 'zod/v4/locales';
 
 
 const customers = ref();
@@ -194,7 +196,16 @@ const userDialog = ref(false);
 
 const deleteUserDialog = ref(false);
 
-const usuario = ref({});
+const usuario = ref({
+    id: 0,
+    nombre: '',
+    email: '',
+    password: '',
+    fecha_nac: '',
+    rol_id: 0
+});
+
+const usuarioCrear = ref({})
 
 const password = ref('')
 
@@ -219,8 +230,6 @@ const usuarioStore = useUsuarioStore()
 
 const toast = useToast()
 
-const tablaRef = ref(null)
-
 
 const cargarUsuarios = async () => {
     customers.value = await usuarioStore.obtenerUsuarios();
@@ -237,14 +246,20 @@ onMounted(async () => {
     }
 });
 
-const onRowEditSave = async (event) => {
+const onRowEditSave = async (event: any) => {
     let { newData, index } = event;
     customers.value[index] = newData;
-    await usuarioService.actualizarUsuario(newData.id_usuario, newData);
+    await usuarioStore.actualizarUsuario(newData.id_usuario, newData);
 };
 
-const editUser = (data) => {
-    usuario.value = { ...data };
+const editUser = (data: UsuarioCrear) => {
+    usuario.value = {
+        nombre: data.nombre,
+        email: data.email,
+        password: data.password,
+        fecha_nac: data.fecha_nac || '',
+        rol_id: data.rol_id || 1
+    };
     userDialog.value = true;
 };
 
@@ -267,16 +282,22 @@ const saveUser = async () => {
 
     if (usuario.value.nombre?.trim()) {
         try {
-            if (usuario.value.id_usuario) {
-                await usuarioService.actualizarUsuario(usuario.value.id_usuario, usuario.value);
-                const index = customers.value.findIndex(u => u.id_usuario === usuario.value.id_usuario);
+            if (usuario.value.id) {
+                await usuarioStore.actualizarUsuario(usuario.value.id, usuario.value);
+                const index = customers.value.findIndex((u: Usuario) => u.id === usuario.value.id);
                 if (index !== -1) {
                     customers.value[index] = usuario.value;
                 }
             }
 
             userDialog.value = false;
-            usuario.value = {};
+            usuario.value = {
+                nombre: '',
+                email: '',
+                password: '',
+                fecha_nac: '',
+                rol_id: 1
+            };
             password.value = "";
             password2.value = "";
         } catch (error) {
@@ -286,28 +307,33 @@ const saveUser = async () => {
 };
 
 
-const confirmDeleteUser = (data) => {
+const confirmDeleteUser = (data: any) => {
     usuario.value = data;
     deleteUserDialog.value = true;
 };
 
 const deleteUser = async () => {
     try {
-        const responseEliminar = await usuarioStore.eliminarUsuario(usuario.value.id_usuario);
-        customers.value = customers.value.filter(u => u.id_usuario !== usuario.value.id_usuario);
+        const responseEliminar = await usuarioStore.eliminarUsuario(usuario.value.id);
+        customers.value = customers.value.filter((u: Usuario) => u.id !== usuario.value.id);
 
         console.log(responseEliminar)
 
         if (responseEliminar.mensaje === 'El usuario se elimino correctamente') {
             toast.add({
-                severity: 'success',
-                summary: 'Éxito',
                 detail: 'Usuario eliminado correctamente',
                 life: 3000
-            })
+            });
 
             deleteUserDialog.value = false;
-            usuario.value = {};
+            usuario.value = {
+                id: 0,
+                nombre: '',
+                email: '',
+                password: '',
+                fecha_nac: '',
+                rol_id: 1
+            };
         } else {
             console.error('Error al eliminar usuario')
         }
@@ -317,7 +343,7 @@ const deleteUser = async () => {
     }
 };
 
-const getSeverity = (rol_id) => {
+const getSeverity = (rol_id: number) => {
     switch (rol_id) {
         case 2:
             return 'danger';

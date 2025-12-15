@@ -4,10 +4,9 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import Button from 'primevue/button'
-import Toast from 'primevue/toast'
 import { useToast } from 'primevue/usetoast'
 
 const toast = useToast()

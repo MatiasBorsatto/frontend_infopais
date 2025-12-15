@@ -70,7 +70,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 
 import FileUpload from 'primevue/fileupload';
 

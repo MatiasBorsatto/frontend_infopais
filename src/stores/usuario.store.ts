@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import usuarioService from "../services/usuario.service";
 import authService from "../services/auth.service";
+import type Usuario from "../types";
 
 export const useUsuarioStore = defineStore(
   "Usuarios",
@@ -15,7 +16,7 @@ export const useUsuarioStore = defineStore(
       }
     };
 
-    const guardarUsuario = async (usuario) => {
+    const guardarUsuario = async (usuario: Usuario) => {
       try {
         const guardarUsuario = await authService.registerAdmin(usuario);
         console.log(guardarUsuario);
@@ -27,7 +28,19 @@ export const useUsuarioStore = defineStore(
       }
     };
 
-    const eliminarUsuario = async (id) => {
+    const actualizarUsuario = async (id: number, newData: any) => {
+      try {
+        const actualizarUsuario = await usuarioService.actualizarUsuario(id, newData);
+        console.log(actualizarUsuario);
+
+        return actualizarUsuario;
+      } catch (error) {
+        console.error("Error al guardar usuarios:", error);
+        throw error;
+      }
+    };
+
+    const eliminarUsuario = async (id: number) => {
       try {
         const eliminarUsuario = await usuarioService.eliminarUsuario(id);
         return eliminarUsuario;
@@ -42,6 +55,7 @@ export const useUsuarioStore = defineStore(
       obtenerUsuarios,
       guardarUsuario,
       eliminarUsuario,
+      actualizarUsuario
     };
   },
   {
