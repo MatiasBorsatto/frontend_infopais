@@ -33,7 +33,18 @@ interface Usuario {
   rol_id?: number;
 }
 
+interface Cookie {
+  name: string,
+  value: any,
+  expires: number,
+  sameSite: CookieSameSite,
+}
+
+interface PropsBarraGeneral {
+  categoria?: string;
+}
+
 type UsuarioCrear = Omit<Usuario, 'id'>
 
 
-export type { UsuarioCrear, Subcategoria, Categoria, Noticia, Usuario as default };
+export type { PropsBarraGeneral, Cookie, UsuarioCrear, Subcategoria, Categoria, Noticia, Usuario };

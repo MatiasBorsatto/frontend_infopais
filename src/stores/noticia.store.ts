@@ -32,7 +32,7 @@ export const useNoticiaStore = defineStore(
         const { id_noticia, ...noticiaCont } = noticia;
         const data = await noticiaService.actualizarNoticia(
           id_noticia as number,
-          noticiaCont
+          noticiaCont as Noticia
         );
         return data;
       } catch (error) {
@@ -79,7 +79,7 @@ export const useNoticiaStore = defineStore(
       obtenerSubcategorias,
       guardarNoticia,
       actualizarNoticia,
-      eliminarNoticia,
+      eliminarNoticia
     };
   },
   {

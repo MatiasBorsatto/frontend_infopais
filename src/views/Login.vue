@@ -29,9 +29,12 @@
 
                 <Button type="submit" severity="secondary" label="Ingresar" :loading="loading" />
 
+                <p class="register">¿No tenes cuenta? <Router-link to="register"
+                        class="register-link">Registrate</Router-link></p>
+
             </Form>
             <div style="display: flex; align-items: center;">
-                <img src="/assets/logo_infopais_sin_fondo.png" alt="">
+                <img src="/assets/logo_infopais_sin_fondo.png" alt="Logo Infopais">
             </div>
         </div>
 
@@ -153,7 +156,6 @@ input {
     height: 100dvh;
     width: 100dvw;
     background-color: rgb(228, 228, 228);
-
     animation: blur-in .5s linear both
 }
 
@@ -179,5 +181,16 @@ input {
     border-radius: 2rem;
     box-shadow: 0rem 1rem .8rem rgb(180, 180, 180);
     border: 1px solid #0062ff66;
+}
+
+.register {
+    color: #0000007a;
+    transition: .5s;
+
+}
+
+.register-link:hover {
+    color: black;
+    transition: .3s;
 }
 </style>

@@ -1,34 +1,47 @@
 <template>
     <div class="cont-titulo">
-        <h3><b>Titulo General</b></h3>
+        <h3><b>{{ props.categoria }}</b></h3>
     </div>
     <div class="cont-general">
-        <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia" />
-        <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia" />
-        <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia" />
-        <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia" />
+        <router-link to="noticia">
+            <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia" />
+        </router-link>
+        <router-link to="noticia">
+            <BloqueNoticia :titulo="resNoticias[1]?.titulo ?? ''" :multimedia="multimedia" />
+        </router-link>
+        <router-link to="noticia">
+            <BloqueNoticia :titulo="resNoticias[2]?.titulo ?? ''" :multimedia="multimedia" />
+        </router-link>
+        <router-link to="noticia">
+            <BloqueNoticia :titulo="resNoticias[3]?.titulo ?? ''" :multimedia="multimedia" />
+        </router-link>
     </div>
 </template>
 
 <script setup lang="ts">
 
 import BloqueNoticia from './BloqueNoticia.vue';
-
 import { ref, onMounted } from 'vue';
-import type { Noticia } from '../services/noticia.service';
+import type { Noticia, PropsBarraGeneral } from '../types.ts';
+import { useNoticiaStore } from '../stores/noticia.store.ts';
+
+const noticiaStore = useNoticiaStore()
 
 const resNoticias = ref<Noticia[]>([]);
 
 const multimedia = "/assets/test.webp"
 
+// Declaración básica
+const props = defineProps<PropsBarraGeneral>();
+
 onMounted(async () => {
-    // try {
-    //     const noticias = await noticiaService.obtenerNoticias();
-    //     resNoticias.value = noticias;
-    //     console.log('Noticias cargadas:', resNoticias.value);
-    // } catch (error) {
-    //     console.error('Error al obtener noticias:', error);
-    // }
+    try {
+        const noticias = await noticiaStore.obtenerNoticias();
+        resNoticias.value = noticias;
+        console.log('Noticias cargadas:', resNoticias.value);
+    } catch (error) {
+        console.error('Error al obtener noticias:', error);
+    }
 });
 
 </script>

@@ -9,6 +9,7 @@ import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
 import {createPinia} from 'pinia'
 import PiniaPluginPersistedState from 'pinia-plugin-persistedstate';
+import AnimateOnScroll from 'primevue/animateonscroll';
 
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
@@ -48,11 +49,25 @@ app.use(PrimeVue, {
             darkModeSelector: 'none', // Desactivar el modo oscuro
             cssLayer: false
         }
+    },
+    locale: {
+        firstDayOfWeek: 1,
+        dayNames: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
+        dayNamesShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
+        dayNamesMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sá"],
+        monthNames: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+        monthNamesShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
+        today: 'Hoy',
+        clear: 'Limpiar',
+        weekHeader: 'Sm',
+        dateFormat: 'dd/mm/yy',
     }
 })
+
 app.use(ToastService)
 app.component('Toast', Toast);
 app.use(pinia)
 app.use(VueSweetalert2);
+app.directive('animateonscroll', AnimateOnScroll);
 
 app.mount('#app')

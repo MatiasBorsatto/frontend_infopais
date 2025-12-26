@@ -1,14 +1,22 @@
 <template>
     <Navbar />
-    <div>
+
+    <div class="bloq-noticias">
         <BloqueNoticiaInicio />
         <Divider />
-        <BarraGeneral />
+
+        <div v-for="c in categorias.obtenerCategorias">
+            <DeferredContent>
+                <BarraGeneral :categoria="c.nombre" />
+            </DeferredContent>
+            <Divider />
+        </div>
     </div>
 
-    <ScrollTop />
 
+    <ScrollTop />
     <Footer />
+
 </template>
 
 <script setup lang="ts">
@@ -17,10 +25,21 @@ import BloqueNoticiaInicio from '../components/BloqueNoticiasInicio.vue';
 import Footer from '../components/Footer.vue';
 import Navbar from '../components/Navbar.vue';
 import Divider from 'primevue/divider';
-import ScrollTop from '../components/ScrollTop.vue'
+import DeferredContent from 'primevue/deferredcontent'; // ✅ Importar DeferredContent
+import ScrollTop from '../components/ScrollTop.vue';
+import { onMounted } from 'vue';
+import { useNoticiaStore } from '../stores/noticia.store';
+
+const noticiaStore = useNoticiaStore()
+
+let categorias: any = {}
+
+onMounted(async () => {
+    categorias = await noticiaStore.obtenerCategorias()
+    console.log(categorias)
+})
 
 </script>
-
 <style scoped>
 p {
     margin: 0;
@@ -28,7 +47,7 @@ p {
 }
 
 
-div {
+.bloq-noticias {
     display: flex;
     flex-direction: column;
     align-items: center;

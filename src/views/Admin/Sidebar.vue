@@ -41,6 +41,12 @@
         </nav>
 
         <!-- Footer con Usuario -->
+        <router-link to="/">
+            <div class="to-ms">
+                Ir a la pantalla principal
+                <i class="pi pi-external-link" />
+            </div>
+        </router-link>
         <div class="sidebar-footer">
             <div class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors">
                 <div class="flex flex-col">
@@ -57,18 +63,12 @@ import { useRouter } from 'vue-router'
 import authService from '../../services/auth.service'
 import Swal from 'sweetalert2'
 import { onMounted } from 'vue'
-import usuarioService from '../../services/usuario.service'
 
 const router = useRouter()
 
-const nombreUser = ''
-
 onMounted(async () => {
-    const datosCookie = JSON.parse(decodeURIComponent(document.cookie))
 
-    console.log(datosCookie)
-    //const id = 
-    //const usuario = await usuarioService.obtenerUsuario(id)
+    //ver para poder traer el nombre del usuario y mostrarlo en la parte inferior del sidebar
 })
 
 const emit = defineEmits(['close'])
@@ -93,7 +93,7 @@ const handleLogout = async () => {
                     icon: "success"
                 });
 
-                router.push({ name: 'login' })
+                router.push({ name: 'inicio' })
                 emit('close')
             }
         });
@@ -177,5 +177,14 @@ const handleLogout = async () => {
 .sidebar-footer {
     border-top: 1px solid #e5e7eb;
     margin-top: auto;
+}
+
+.to-ms {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 3rem;
+    border-top: 1px solid #ebebeb;
+    color: grey;
 }
 </style>

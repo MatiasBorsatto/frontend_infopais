@@ -12,7 +12,22 @@
                 <a href=""><img src="/assets/instagram-logo.svg" alt=""></a>
             </div>
         </div>
-        <hr>
+        <Divider />
+
+        <div class="categorias">
+            <router-link to="/mundo">Mundo</router-link>
+            <router-link to="/politica">Politica</router-link>
+            <router-link to="/negocios">Negocios</router-link>
+            <router-link to="/opinion">Opinion</router-link>
+            <router-link to="/tecnologia">Tecnologia</router-link>
+            <router-link to="/ciencia">Ciencia</router-link>
+            <router-link to="/salud">Salud</router-link>
+            <router-link to="/deportes">Deportes</router-link>
+            <router-link to="/entretenimiento">Entretenimiento</router-link>
+            <router-link to="/viajes">Viajes</router-link>
+            <router-link to="/mas">Mas</router-link>
+        </div>
+        <Divider />
         <div id="cont-derecho">
             <p>Todos Los Derechos Reservados © 2025 InfoPais</p>
         </div>
@@ -20,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import Divider from 'primevue/divider';
 
 </script>
 
@@ -28,11 +44,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 10rem;
+    height: auto;
     background-color: rgb(206, 206, 206);
     flex-direction: column;
     position: relative;
     width: 100%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 hr {
@@ -66,6 +84,13 @@ hr {
 }
 
 #cont-redes img {
-    width: 5rem;
+    width: 3rem;
+}
+
+.categorias {
+    display: flex;
+    width: 100%;
+    gap: 1rem;
+    justify-content: center;
 }
 </style>
