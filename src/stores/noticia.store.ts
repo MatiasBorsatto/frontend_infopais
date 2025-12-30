@@ -17,6 +17,16 @@ export const useNoticiaStore = defineStore(
       }
     };
 
+    const obtenerNoticiasByCat = async (id: number) => {
+      try {
+        const data = await noticiaService.obtenerNoticiasByCat(id);
+        return data;
+      } catch (error) {
+        console.error("Error al obtener noticias:", error);
+        throw error;
+      }
+    };
+
     const guardarNoticia = async (noticia: Noticia) => {
       try {
         const data = await noticiaService.guardarNoticia(noticia);
@@ -79,7 +89,8 @@ export const useNoticiaStore = defineStore(
       obtenerSubcategorias,
       guardarNoticia,
       actualizarNoticia,
-      eliminarNoticia
+      eliminarNoticia,
+      obtenerNoticiasByCat
     };
   },
   {

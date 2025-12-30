@@ -5,11 +5,17 @@
         <BloqueNoticiaInicio />
         <Divider />
 
-        <div v-for="c in categorias.obtenerCategorias">
-            <DeferredContent>
-                <BarraGeneral :categoria="c.nombre" />
-            </DeferredContent>
-            <Divider />
+        <template v-if="datosListos">
+
+            <div v-for="c in categorias.obtenerCategorias">
+                <DeferredContent>
+                    <BarraGeneral :categoriaName="c.nombre" :categoriaId="c.id_categoria" />
+                </DeferredContent>
+                <Divider />
+            </div>
+        </template>
+        <div v-else>
+            <ProgressSpinner />
         </div>
     </div>
 
@@ -25,18 +31,23 @@ import BloqueNoticiaInicio from '../components/BloqueNoticiasInicio.vue';
 import Footer from '../components/Footer.vue';
 import Navbar from '../components/Navbar.vue';
 import Divider from 'primevue/divider';
-import DeferredContent from 'primevue/deferredcontent'; // ✅ Importar DeferredContent
+import DeferredContent from 'primevue/deferredcontent';
 import ScrollTop from '../components/ScrollTop.vue';
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useNoticiaStore } from '../stores/noticia.store';
+import ProgressSpinner from 'primevue/progressspinner';
 
 const noticiaStore = useNoticiaStore()
 
-let categorias: any = {}
+let categorias: any = ref([])
+let datosListos = ref(false)
 
 onMounted(async () => {
-    categorias = await noticiaStore.obtenerCategorias()
-    console.log(categorias)
+    categorias.value = await noticiaStore.obtenerCategorias()
+    datosListos.value = true
+
+    console.log('listo')
+    console.log("CAtegorias", categorias.value)
 })
 
 </script>

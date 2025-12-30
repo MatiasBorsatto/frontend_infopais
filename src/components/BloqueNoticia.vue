@@ -1,15 +1,17 @@
 <template>
-    <Card style="overflow: hidden" class="contenedor">
-        <template #header>
-            <img :src="props.multimedia" alt="Imagen de Noticia">
-        </template>
-        <template #title>
-            <h2 :style="customStylesTitle">{{ props.titulo }}</h2>
-        </template>
-        <template #subtitle v-if="props.subtitulo" :style="customStylesSubtitle">
-            <p>{{ props.subtitulo }}</p>
-        </template>
-    </Card>
+    <router-link to="noticia">
+        <Card style="overflow: hidden" class="contenedor">
+            <template #header>
+                <img :src="props.multimedia" alt="Imagen de Noticia">
+            </template>
+            <template #title>
+                <h2 :style="customStylesTitle">{{ props.titulo }}</h2>
+            </template>
+            <template #subtitle v-if="props.subtitulo" :style="customStylesSubtitle">
+                <p>{{ props.subtitulo }}</p>
+            </template>
+        </Card>
+    </router-link>
 </template>
 
 <script setup lang="ts">
@@ -46,10 +48,15 @@ p {
 
 .contenedor {
     height: 100%;
+    transition: .2s;
+
 }
 
 .contenedor:hover {
     cursor: pointer;
+    box-shadow: .2rem .2rem 0.5rem rgb(183, 183, 183);
+    cursor: pointer;
+    transition: .2s;
 }
 
 hr {

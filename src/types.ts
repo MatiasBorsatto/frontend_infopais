@@ -41,7 +41,8 @@ interface Cookie {
 }
 
 interface PropsBarraGeneral {
-  categoria?: string;
+  categoriaName: string,
+  categoriaId: number
 }
 
 type UsuarioCrear = Omit<Usuario, 'id'>

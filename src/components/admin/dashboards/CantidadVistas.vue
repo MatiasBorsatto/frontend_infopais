@@ -1,6 +1,10 @@
 <template>
     <div class="card cont-chart">
-        <DatePicker v-model="date" size="small" icon-display="button" date-format="dd/mm/yy" />
+
+        <calendar-range>
+            <calendar-month></calendar-month>
+        </calendar-range>
+
         <Chart type="bar" :data="chartData" :options="chartOptions" />
     </div>
 </template>
@@ -9,9 +13,7 @@
 import Chart from 'primevue/chart';
 
 import { ref, onMounted } from "vue";
-import DatePicker from 'primevue/datepicker';
-
-const date = ref();
+import "cally";
 
 
 onMounted(() => {
@@ -91,5 +93,67 @@ const setChartOptions = () => {
 .p-chart {
     height: 20rem;
     width: 40rem;
+}
+
+calendar-range {
+    svg {
+        height: 16px;
+        width: 16px;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.5;
+    }
+
+    path {
+        stroke-linecap: round;
+        stroke-linejoin: round;
+    }
+
+    &::part(months) {
+        display: flex;
+        gap: 1.5em;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    &::part(button) {
+        border: 1px solid #adb5bd;
+        background-color: #fff;
+        border-radius: 3px;
+        width: 26px;
+        height: 26px;
+    }
+
+    &::part(button):focus-visible {
+        outline: 2px solid #7048e8;
+    }
+}
+
+calendar-month {
+    --color-accent: #005eff;
+    --color-text-on-accent: #ffffff;
+
+    &::part(button) {
+        border-radius: 3px;
+    }
+
+    &::part(range-inner) {
+        border-radius: 0;
+        background-color: #5795ff;
+    }
+
+    &::part(range-start) {
+        border-start-end-radius: 0;
+        border-end-end-radius: 0;
+    }
+
+    &::part(range-end) {
+        border-start-start-radius: 0;
+        border-end-start-radius: 0;
+    }
+
+    &::part(range-start range-end) {
+        border-radius: 3px;
+    }
 }
 </style>

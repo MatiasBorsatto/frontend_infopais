@@ -12,6 +12,11 @@ class NoticiaService {
     return data.obtenerNoticias;
   }
 
+  async obtenerNoticiasByCat(id: number): Promise<Noticia[]> {
+    const { data } = await axios.get(`${API_URL}/obtenerByCat/${id}`);
+    return data.obtenerNoticiasByCat;
+  }
+
  async guardarNoticia(noticia: Noticia): Promise<Noticia[]> {
     const { data } = await axios.post(`${API_URL}/guardar`, noticia);
     return data;

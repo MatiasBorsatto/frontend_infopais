@@ -62,13 +62,13 @@
 
                 <Column field="categoria_id" header="Categoría" sortable style="min-width: 10rem">
                     <template #body="slotProps">
-                        {{ getCategoriaNombre(slotProps.data.categoria_id) }}
+                        {{ getCategoriaNombre(slotProps.data.id_categoria) }}
                     </template>
                 </Column>
 
                 <Column field="subcategoria_id" header="Subcategoría" sortable style="min-width: 10rem">
                     <template #body="slotProps">
-                        {{ getSubcategoriaNombre(slotProps.data.subcategoria_id) }}
+                        {{ getSubcategoriaNombre(slotProps.data.id_subcategoria) }}
                     </template>
                 </Column>
 
@@ -177,7 +177,7 @@
 
             <div>
                 <label for="multimedia" class="block font-bold mb-3">Multimedia</label>
-                <InputText id="multimedia" v-model.trim="noticia.multimedia" fluid />
+                <SubirArchivos />
             </div>
         </div>
 
@@ -229,6 +229,7 @@ import InputIcon from 'primevue/inputicon';
 import Editor from 'primevue/editor';
 import { useNoticiaStore } from '../../stores/noticia.store.js'
 import type { Categoria, Noticia, Subcategoria } from '../../types.js';
+import SubirArchivos from './SubirArchivos.vue';
 
 const toast = useToast();
 

@@ -1,29 +1,40 @@
 <template>
-    <div class="cont-titulo">
-        <h3><b>{{ props.categoria }}</b></h3>
-    </div>
     <div class="cont-general">
-        <router-link to="noticia">
-            <BloqueNoticia :titulo="resNoticias[0]?.titulo ?? ''" :multimedia="multimedia" />
-        </router-link>
-        <router-link to="noticia">
-            <BloqueNoticia :titulo="resNoticias[1]?.titulo ?? ''" :multimedia="multimedia" />
-        </router-link>
-        <router-link to="noticia">
-            <BloqueNoticia :titulo="resNoticias[2]?.titulo ?? ''" :multimedia="multimedia" />
-        </router-link>
-        <router-link to="noticia">
-            <BloqueNoticia :titulo="resNoticias[3]?.titulo ?? ''" :multimedia="multimedia" />
-        </router-link>
+        <div class="cont-titulo">
+            <h3><b>{{ props.categoriaName }}</b></h3>
+        </div>
+
+        <template v-if="datosListos">
+
+            <div class="cont-noticia">
+                <BloqueNoticia v-for="n in resNoticias" :titulo="n.titulo" :multimedia="multimedia" />
+            </div>
+        </template>
+
+
+        <!-- <Carousel :value="resNoticias" :numVisible="4" :numScroll="1" :responsiveOptions="responsiveOptions">
+            <template #item="slotProps">
+                <div class="border border-surface-200 dark:border-surface-700 rounded m-2 cont-noticia">
+                    <div>
+                        <div class="relative mx-auto">
+                            <img :src=multimedia :alt="multimedia" class="w-full rounded" />
+                        </div>
+                    </div>
+                    <div class="p-4 font-medium">{{ slotProps.data.titulo }}</div>
+                </div>
+            </template>
+</Carousel> -->
+
     </div>
 </template>
 
 <script setup lang="ts">
 
-import BloqueNoticia from './BloqueNoticia.vue';
 import { ref, onMounted } from 'vue';
 import type { Noticia, PropsBarraGeneral } from '../types.ts';
 import { useNoticiaStore } from '../stores/noticia.store.ts';
+import BloqueNoticia from './BloqueNoticia.vue';
+
 
 const noticiaStore = useNoticiaStore()
 
@@ -31,14 +42,18 @@ const resNoticias = ref<Noticia[]>([]);
 
 const multimedia = "/assets/test.webp"
 
+let datosListos = ref(false)
+
+
 // Declaración básica
 const props = defineProps<PropsBarraGeneral>();
 
 onMounted(async () => {
     try {
-        const noticias = await noticiaStore.obtenerNoticias();
-        resNoticias.value = noticias;
+        resNoticias.value = await noticiaStore.obtenerNoticiasByCat(props.categoriaId);
         console.log('Noticias cargadas:', resNoticias.value);
+        datosListos.value = true
+
     } catch (error) {
         console.error('Error al obtener noticias:', error);
     }
@@ -48,13 +63,10 @@ onMounted(async () => {
 
 <style scoped>
 .cont-general {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 1rem;
-    height: 20rem;
-    padding: 0;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    height: auto;
 }
 
 .cont-titulo {
@@ -65,5 +77,11 @@ onMounted(async () => {
 
 h3 {
     font-size: larger;
+}
+
+.cont-noticia {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
 }
 </style>
