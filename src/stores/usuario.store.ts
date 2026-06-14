@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import usuarioService from "../services/usuario.service";
 import authService from "../services/auth.service";
-import type Usuario from "../types";
+
 
 export const useUsuarioStore = defineStore(
   "Usuarios",
@@ -16,7 +16,7 @@ export const useUsuarioStore = defineStore(
       }
     };
 
-    const guardarUsuario = async (usuario: Usuario) => {
+    const guardarUsuario = async (usuario: any) => {
       try {
         const guardarUsuario = await authService.registerAdmin(usuario);
         console.log(guardarUsuario);

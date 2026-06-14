@@ -12,6 +12,9 @@ interface Noticia {
   id_estado: number;
   multimedia: string; // URL de imagen o video
   slug: string;
+  fecha_creacion?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface Categoria{

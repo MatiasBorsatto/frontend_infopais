@@ -46,7 +46,7 @@ app.use(PrimeVue, {
     theme: {
         preset: CustomLara,
         options: {
-            darkModeSelector: 'none', // Desactivar el modo oscuro
+            darkModeSelector: '.dark', // Activar modo oscuro con clase .dark
             cssLayer: false
         }
     },

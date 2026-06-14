@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import noticiaService from "../services/noticia.service.ts";
-import type { Noticia } from "../types.ts";
+
 
 
 export const useNoticiaStore = defineStore(
@@ -27,7 +27,17 @@ export const useNoticiaStore = defineStore(
       }
     };
 
-    const guardarNoticia = async (noticia: Noticia) => {
+    const obtenerNoticiaPorSlug = async (slug: string) => {
+      try {
+        const data = await noticiaService.obtenerNoticiaPorSlug(slug);
+        return data;
+      } catch (error) {
+        console.error("Error al obtener noticia por slug:", error);
+        throw error;
+      }
+    };
+
+    const guardarNoticia = async (noticia: any) => {
       try {
         const data = await noticiaService.guardarNoticia(noticia);
         return data;
@@ -37,13 +47,9 @@ export const useNoticiaStore = defineStore(
       }
     };
 
-    const actualizarNoticia = async (noticia: Noticia) => {
+    const actualizarNoticia = async (id: number, payload: any) => {
       try {
-        const { id_noticia, ...noticiaCont } = noticia;
-        const data = await noticiaService.actualizarNoticia(
-          id_noticia as number,
-          noticiaCont as Noticia
-        );
+        const data = await noticiaService.actualizarNoticia(id, payload);
         return data;
       } catch (error) {
         console.error("Error al actualizar noticia:", error);
@@ -90,7 +96,8 @@ export const useNoticiaStore = defineStore(
       guardarNoticia,
       actualizarNoticia,
       eliminarNoticia,
-      obtenerNoticiasByCat
+      obtenerNoticiasByCat,
+      obtenerNoticiaPorSlug
     };
   },
   {

@@ -1,6 +1,9 @@
 <template>
-    <div class="center">
-        <TablaUsuarios />
+    <div class="flex flex-col gap-6 w-full max-w-7xl mx-auto">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">Gestión de Usuarios</h1>
+        <div class="w-full bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <TablaUsuarios />
+        </div>
     </div>
 </template>
 
@@ -9,20 +12,6 @@
 import TablaUsuarios from '../../components/admin/TablaUsuarios.vue';
 </script>
 
-
 <style scoped>
-.center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100vh;
-}
-
-.tabla {
-    display: flex;
-    width: 85%;
-    height: 80vh;
-    overflow-y: auto;
-}
+/* Estilos puramente con Tailwind */
 </style>

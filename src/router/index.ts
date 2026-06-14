@@ -8,6 +8,7 @@ import Usuarios from '../views/Admin/Usuarios.vue'
 // @ts-ignore: no declaration file for .vue modules
 import TablaNoticias from '../components/admin/TablaNoticias.vue'
 import NoticiaDetalle from '../views/NoticiaDetalle.vue'
+import CategoriaDetalle from '../views/CategoriaDetalle.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/register',
     name: 'register',
     component: Register
+  },
+  {
+    path: '/seccion/:nombre',
+    name: 'categoria',
+    component: CategoriaDetalle
   },
   {
     path: '/:slug',

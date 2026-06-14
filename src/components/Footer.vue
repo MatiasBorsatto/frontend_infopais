@@ -1,96 +1,68 @@
 <template>
-    <div id="cont-footer">
-        <div id="cont-links">
-            <div>
-                <img src="/assets/logo_infopais_sin_fondo.png" alt="Logo InfoPais">
-
+    <footer class="bg-gray-200 dark:bg-gray-900 py-10 transition-colors duration-300 border-t border-gray-300 dark:border-gray-800 mt-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+            
+            <!-- Logo y Redes Sociales -->
+            <div class="w-full flex flex-col md:flex-row justify-between items-center gap-6 mb-8">
+                <div>
+                    <img :src="isDark ? '/assets/logo_infopais_sin_fondo.png' : '/assets/logo_infopais_sin_fondo.png'" alt="Logo InfoPais" class="h-16 md:h-20 object-contain mix-blend-multiply dark:invert dark:mix-blend-screen transition-all">
+                </div>
+                
+                <div class="flex flex-col sm:flex-row items-center gap-4 text-gray-800 dark:text-gray-200">
+                    <p class="font-bold uppercase tracking-wider text-sm">Seguinos:</p>
+                    <div class="flex items-center gap-4">
+                        <a href="#" class="hover:opacity-80 transition-opacity">
+                            <img src="/assets/facebook-logo.svg" alt="Facebook" class="w-8 h-8 dark:invert">
+                        </a>
+                        <a href="#" class="hover:opacity-80 transition-opacity">
+                            <img src="/assets/instagram-logo.svg" alt="Instagram" class="w-8 h-8 dark:invert">
+                        </a>
+                    </div>
+                </div>
             </div>
 
-            <div id="cont-redes">
-                <p>Seguinos:</p>
-                <a href=""><img src="/assets/facebook-logo.svg" alt=""></a>
-                <a href=""><img src="/assets/instagram-logo.svg" alt=""></a>
+            <div class="w-full h-px bg-gray-300 dark:bg-gray-700 mb-8"></div>
+
+            <!-- Categorías -->
+            <div class="flex flex-wrap justify-center gap-x-6 gap-y-4 mb-8 text-sm md:text-base font-bold text-gray-800 dark:text-gray-200 uppercase tracking-wide">
+                <router-link to="/seccion/mundo" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Mundo</router-link>
+                <router-link to="/seccion/política" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Política</router-link>
+                <router-link to="/seccion/negocios" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Negocios</router-link>
+                <router-link to="/seccion/opinión" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Opinión</router-link>
+                <router-link to="/seccion/tecnología" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Tecnología</router-link>
+                <router-link to="/seccion/ciencia" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Ciencia</router-link>
+                <router-link to="/seccion/salud" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Salud</router-link>
+                <router-link to="/seccion/deportes" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Deportes</router-link>
+                <router-link to="/seccion/entretenimiento" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Entretenimiento</router-link>
+            </div>
+
+            <div class="w-full h-px bg-gray-300 dark:bg-gray-700 mb-6"></div>
+
+            <!-- Copyright -->
+            <div class="text-center text-sm text-gray-600 dark:text-gray-400 font-medium">
+                <p>Todos Los Derechos Reservados © 2026 InfoPaís</p>
             </div>
         </div>
-        <Divider />
-
-        <div class="categorias">
-            <router-link to="/mundo">Mundo</router-link>
-            <router-link to="/politica">Politica</router-link>
-            <router-link to="/negocios">Negocios</router-link>
-            <router-link to="/opinion">Opinion</router-link>
-            <router-link to="/tecnologia">Tecnologia</router-link>
-            <router-link to="/ciencia">Ciencia</router-link>
-            <router-link to="/salud">Salud</router-link>
-            <router-link to="/deportes">Deportes</router-link>
-            <router-link to="/entretenimiento">Entretenimiento</router-link>
-            <router-link to="/viajes">Viajes</router-link>
-            <router-link to="/mas">Mas</router-link>
-        </div>
-        <Divider />
-        <div id="cont-derecho">
-            <p>Todos Los Derechos Reservados © 2025 InfoPais</p>
-        </div>
-    </div>
+    </footer>
 </template>
 
 <script setup lang="ts">
-import Divider from 'primevue/divider';
+import { ref, onMounted } from 'vue';
 
+const isDark = ref(false);
+
+onMounted(() => {
+    // Escuchar el modo oscuro global
+    const updateTheme = () => {
+        isDark.value = document.documentElement.classList.contains('dark');
+    };
+    updateTheme();
+    // Opcional: configurar un mutation observer para detectar el cambio al vuelo
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+});
 </script>
 
 <style scoped>
-#cont-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: auto;
-    background-color: rgb(206, 206, 206);
-    flex-direction: column;
-    position: relative;
-    width: 100%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-
-hr {
-    width: 80%;
-}
-
-#cont-links {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-direction: row;
-    width: 100%;
-    height: 100%;
-}
-
-#cont-links img {
-    width: 15rem;
-}
-
-#cont-derecho {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-}
-
-#cont-redes {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#cont-redes img {
-    width: 3rem;
-}
-
-.categorias {
-    display: flex;
-    width: 100%;
-    gap: 1rem;
-    justify-content: center;
-}
+/* Estilos eliminados, reemplazados con Tailwind */
 </style>

@@ -1,57 +1,60 @@
 <template>
-    <div class="sidebar-content">
+    <div class="flex flex-col h-full bg-white dark:bg-gray-800">
         <!-- Header con Logo -->
-        <div class="sidebar-header">
-            <img src="/assets/logo_min_sin_fondo.png" alt="Logo Icono">
+        <div class="flex items-center justify-center h-20 border-b border-gray-200 dark:border-gray-700 shrink-0">
+            <img src="/assets/logo_infopais_sin_fondo.png" alt="Logo InfoPais" class="h-10 object-contain">
         </div>
 
         <!-- Menú -->
-        <nav class="sidebar-nav">
-            <!-- Sección Documents -->
-            <div class="menu-section">
-                <div class="section-label">Panel de Administracion</div>
-                <router-link to="/admin/dashboard" class="menu-item" @click="$emit('close')">
-                    <span class="flex-1">Inicio</span>
-                </router-link>
-                <router-link to="/admin/noticias" class="menu-item" @click="$emit('close')">
-                    <span class="flex-1">Noticias</span>
-                    <i class="pi pi-book"></i>
-                </router-link>
-                <router-link to="/admin/usuarios" class="menu-item" @click="$emit('close')">
-                    <span class="flex-1">Usuarios</span>
-                    <i class="pi pi-users"></i>
-                </router-link>
+        <nav class="flex-1 overflow-y-auto py-6 px-4 space-y-8">
+            <!-- Sección Panel -->
+            <div>
+                <div class="px-3 mb-2 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                    Panel de Administración
+                </div>
+                <div class="space-y-1">
+                    <router-link to="/admin/dashboard" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors" active-class="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-semibold" @click="$emit('close')">
+                        <i class="pi pi-home"></i>
+                        <span class="flex-1">Inicio</span>
+                    </router-link>
+                    <router-link to="/admin/noticias" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors" active-class="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-semibold" @click="$emit('close')">
+                        <i class="pi pi-book"></i>
+                        <span class="flex-1">Noticias</span>
+                    </router-link>
+                    <router-link to="/admin/usuarios" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors" active-class="bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 font-semibold" @click="$emit('close')">
+                        <i class="pi pi-users"></i>
+                        <span class="flex-1">Usuarios</span>
+                    </router-link>
+                </div>
             </div>
 
-            <!-- Sección Profile -->
-            <div class="menu-section">
-                <div class="section-label">Profile</div>
-                <router-link to="/profile/settings" class="menu-item" @click="$emit('close')">
-                    <span class="flex-1">Settings</span>
-                    <span class="shortcut">⌘+O</span>
-                </router-link>
-                <router-link to="/profile/messages" class="menu-item" @click="$emit('close')">
-                    <span class="flex-1">Messages</span>
-                </router-link>
-                <a href="#" class="menu-item" @click.prevent="handleLogout">
-                    <span class="flex-1">Cerrar Sesion</span>
-                    <i class="pi pi-sign-out"></i>
-                </a>
+            <!-- Sección Acciones -->
+            <div>
+                <div class="px-3 mb-2 text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                    Acciones
+                </div>
+                <div class="space-y-1">
+                    <router-link to="/" target="_blank" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white transition-colors" @click="$emit('close')">
+                        <i class="pi pi-external-link"></i>
+                        <span class="flex-1">Ir al Portal</span>
+                    </router-link>
+                    <a href="#" @click.prevent="handleLogout" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors">
+                        <i class="pi pi-sign-out"></i>
+                        <span class="flex-1">Cerrar Sesión</span>
+                    </a>
+                </div>
             </div>
         </nav>
 
         <!-- Footer con Usuario -->
-        <router-link to="/">
-            <div class="to-ms">
-                Ir a la pantalla principal
-                <i class="pi pi-external-link" />
-            </div>
-        </router-link>
-        <div class="sidebar-footer">
-            <div class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors">
-                <div class="flex flex-col">
-                    <span class="font-semibold text-gray-900">Amy Elsner</span>
-                    <span class="text-sm text-gray-500">Admin</span>
+        <div class="border-t border-gray-200 dark:border-gray-700 p-4 shrink-0 bg-gray-50 dark:bg-gray-800/50">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+                    <i class="pi pi-user text-xl"></i>
+                </div>
+                <div class="flex flex-col overflow-hidden">
+                    <span class="font-semibold text-sm text-gray-900 dark:text-gray-100 truncate">Administrador</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400 truncate">Panel InfoPais</span>
                 </div>
             </div>
         </div>
@@ -62,35 +65,30 @@
 import { useRouter } from 'vue-router'
 import authService from '../../services/auth.service'
 import Swal from 'sweetalert2'
-import { onMounted } from 'vue'
 
 const router = useRouter()
-
-onMounted(async () => {
-
-    //ver para poder traer el nombre del usuario y mostrarlo en la parte inferior del sidebar
-})
-
 const emit = defineEmits(['close'])
 
 const handleLogout = async () => {
     try {
-        await authService.logout()  // Ejecuta la petición al backend
+        await authService.logout()
 
         Swal.fire({
-            title: "Estas seguro que queres cerrar sesion?",
-            text: "Si cerras sesion, saldras de la plataforma",
+            title: "¿Estás seguro que querés cerrar sesión?",
+            text: "Si cerrás sesión, saldrás del panel de administración.",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Si"
+            confirmButtonColor: "#3B82F6",
+            cancelButtonColor: "#EF4444",
+            confirmButtonText: "Sí, salir",
+            cancelButtonText: "Cancelar"
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire({
-                    title: "Sesion Cerrada!",
-                    text: "Has cerrado sesion",
-                    icon: "success"
+                    title: "¡Sesión Cerrada!",
+                    text: "Has cerrado sesión correctamente.",
+                    icon: "success",
+                    confirmButtonColor: "#3B82F6"
                 });
 
                 router.push({ name: 'inicio' })
@@ -104,87 +102,5 @@ const handleLogout = async () => {
 </script>
 
 <style scoped>
-.sidebar-content {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    background: white;
-    width: 100%;
-
-}
-
-.sidebar-header {
-    display: flex;
-    justify-content: center;
-    border-bottom: 1px solid #e5e7eb;
-}
-
-.sidebar-header img {
-    width: 5rem;
-}
-
-.sidebar-nav {
-    flex: 1;
-    overflow-y: auto;
-    padding: 1rem 0;
-}
-
-.menu-section {
-    margin-bottom: 1.5rem;
-}
-
-.section-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #0062ff;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 0.5rem 1rem;
-}
-
-.menu-item {
-    display: flex;
-    align-items: center;
-    padding: 0.75rem 1rem;
-    margin: 0 0.5rem;
-    border-radius: 0.5rem;
-    color: #4b5563;
-    text-decoration: none;
-    transition: all 0.2s;
-    cursor: pointer;
-}
-
-.menu-item:hover {
-    background: #f3f4f6;
-    color: #111827;
-}
-
-.menu-item.router-link-active {
-    background: #f3f4f6;
-    color: #3B82F6;
-    font-weight: 500;
-}
-
-.shortcut {
-    font-size: 0.75rem;
-    color: #9ca3af;
-    padding: 0.125rem 0.5rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 0.25rem;
-    background: #f9fafb;
-}
-
-.sidebar-footer {
-    border-top: 1px solid #e5e7eb;
-    margin-top: auto;
-}
-
-.to-ms {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 3rem;
-    border-top: 1px solid #ebebeb;
-    color: grey;
-}
+/* Estilos puramente con Tailwind */
 </style>

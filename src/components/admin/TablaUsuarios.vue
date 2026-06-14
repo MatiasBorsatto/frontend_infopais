@@ -1,39 +1,34 @@
 <template>
-    <div class="card" style="width: 100%; height: 100%;">
+    <div class="w-full min-h-full flex flex-col flex-1 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
         <DataTable v-model:editingRows="editingRows" v-model:filters="filters" :value="customers" paginator :rows="10"
             editMode="row" dataKey="id" @row-edit-save="onRowEditSave" filterDisplay="row" :loading="loading"
-            :globalFilterFields="['nombre', 'rol_id']" :pt="{
-                column: {
-                    bodycell: ({ state }) => ({
-                        style: state['d_editing'] && 'padding-top: 0.75rem; padding-bottom: 0.75rem'
-                    })
-                }
-            }"
-            style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
+            :globalFilterFields="['nombre', 'rol_id']"
+            stripedRows showGridlines :rowHover="true" size="large" scrollable scrollHeight="flex"
+            class="w-full h-full flex-1 flex flex-col text-sm sm:text-base">
 
             <template #empty> No se encontraron usuarios. </template>
             <template #loading> Cargando usuarios. Por favor espere. </template>
 
-            <Column field="id_usuario" header="ID" :showFilterMenu="false" style="width: 5%" :sortable="true">
+            <Column field="id_usuario" header="ID" :showFilterMenu="false" style="min-width: 5rem" :sortable="true">
                 <template #body="{ data, field }">
                     <div class="flex items-center gap-2">
-                        <span>{{ data[field] }}</span>
+                        <span>{{ data[field as string] }}</span>
                     </div>
                 </template>
                 <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" fluid />
+                    <InputText v-model="data[field as string]" fluid />
                 </template>
             </Column>
 
             <!-- Columna Usuario con filtro y edición -->
-            <Column field="nombre" header="Usuario" :showFilterMenu="false" style="width: 20%" :sortable="true">
+            <Column field="nombre" header="Usuario" :showFilterMenu="false" style="min-width: 12rem" :sortable="true">
                 <template #body="{ data, field }">
                     <div class="flex items-center gap-2">
-                        <span>{{ data[field] }}</span>
+                        <span>{{ data[field as string] }}</span>
                     </div>
                 </template>
                 <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" fluid />
+                    <InputText v-model="data[field as string]" fluid />
                 </template>
                 <template #filter="{ filterModel, filterCallback }">
                     <InputText v-model="filterModel.value" type="text" @input="filterCallback()"
@@ -41,36 +36,36 @@
                 </template>
             </Column>
 
-            <Column field="email" header="Email" :showFilterMenu="false" style="width: 20%" :sortable="true">
+            <Column field="email" header="Email" :showFilterMenu="false" style="min-width: 14rem" :sortable="true">
                 <template #body="{ data, field }">
                     <div class="flex items-center gap-2">
-                        <span>{{ data[field] }}</span>
+                        <span>{{ data[field as string] }}</span>
                     </div>
                 </template>
                 <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" fluid />
+                    <InputText v-model="data[field as string]" fluid />
                 </template>
             </Column>
 
-            <Column field="fecha_nac" header="Fecha de Nacimiento" :showFilterMenu="false" style="width: 30%"
+            <Column field="fecha_nac" header="Fecha de Nacimiento" :showFilterMenu="false" style="min-width: 12rem"
                 :sortable="true">
                 <template #body="{ data, field }">
                     <div class="flex items-center gap-2">
-                        <span>{{ data[field] }}</span>
+                        <span>{{ data[field as string] }}</span>
                     </div>
                 </template>
                 <template #editor="{ data, field }">
-                    <InputText v-model="data[field]" fluid />
+                    <InputText v-model="data[field as string]" fluid />
                 </template>
             </Column>
 
             <!-- Columna Rol con filtro y edición -->
-            <Column field="rol_id" header="Rol" :showFilterMenu="false" style="width: 15%" :sortable="true">
+            <Column field="rol_id" header="Rol" :showFilterMenu="false" style="min-width: 10rem" :sortable="true">
                 <template #body="{ data }">
                     <Tag :value="data.rol_id === 2 ? 'Admin' : 'Estandar'" :severity="getSeverity(data.rol_id)" />
                 </template>
                 <template #editor="{ data, field }">
-                    <Select v-model="data[field]" :options="statuses" optionLabel="label" optionValue="value"
+                    <Select v-model="data[field as string]" :options="statuses" optionLabel="label" optionValue="value"
                         placeholder="Seleccionar Rol" fluid>
                         <template #option="slotProps">
                             <Tag :value="slotProps.option.label" :severity="getSeverity(slotProps.option.value)" />
@@ -85,13 +80,12 @@
             </Column>
 
             <!-- Columna de edición -->
-            <Column :exportable="false" style="min-width: 20%" :showFilterMenu="false">
+            <Column :exportable="false" style="min-width: 10rem" :showFilterMenu="false">
 
                 <template #filter>
-                    <div style="display: flex; flex-direction: row; gap: 1rem;">
-                        <CrearUsuario />
-                        <RefreshButtonUsuarios :onRefresh="cargarUsuarios" />
-
+                    <div class="flex items-center gap-2">
+                        <CrearUsuario :onRefresh="cargarUsuarios" />
+                        <RefreshButtonUsuarios @refresh="cargarUsuarios" />
                     </div>
                 </template>
                 <template #body="slotProps">
@@ -107,7 +101,7 @@
     </div>
 
     <!-- Diálogo para editar usuario -->
-    <Dialog v-model:visible="userDialog" :style="{ width: '450px' }" header="Detalles del Usuario" :modal="true">
+    <Dialog v-model:visible="userDialog" :style="{ width: '450px' }" :breakpoints="{ '641px': '90vw' }" header="Detalles del Usuario" :modal="true">
         <div class="flex flex-col gap-6">
             <div>
                 <label for="nombre" class="block font-bold mb-3">Nombre de Usuario</label>
@@ -156,7 +150,7 @@
     </Dialog>
 
     <!-- Diálogo de confirmación para eliminar usuario -->
-    <Dialog v-model:visible="deleteUserDialog" :style="{ width: '450px' }" header="Confirmar" :modal="true">
+    <Dialog v-model:visible="deleteUserDialog" :style="{ width: '450px' }" :breakpoints="{ '641px': '90vw' }" header="Confirmar" :modal="true">
         <div class="flex items-center gap-4">
             <i class="pi pi-exclamation-triangle !text-3xl" />
             <span v-if="usuario">¿Está seguro que desea eliminar a <b>{{ usuario.nombre }}</b>?</span>
@@ -183,9 +177,8 @@ import CrearUsuario from './CrearUsuario.vue';
 import { useUsuarioStore } from '../../stores/usuario.store.js'
 import { useToast } from 'primevue/usetoast'
 import RefreshButtonUsuarios from './RefreshButtonUsuarios.vue'
-import type { UsuarioCrear } from '../../types.ts'
-import type Usuario from '../../types.ts'
-import { id } from 'zod/v4/locales';
+
+import type { Usuario } from '../../types.ts'
 
 
 const customers = ref();
@@ -205,7 +198,7 @@ const usuario = ref({
     rol_id: 0
 });
 
-const usuarioCrear = ref({})
+
 
 const password = ref('')
 
@@ -252,11 +245,12 @@ const onRowEditSave = async (event: any) => {
     await usuarioStore.actualizarUsuario(newData.id_usuario, newData);
 };
 
-const editUser = (data: UsuarioCrear) => {
+const editUser = (data: any) => {
     usuario.value = {
+        id: data.id_usuario as number || 0,
         nombre: data.nombre,
         email: data.email,
-        password: data.password,
+        password: data.password || '',
         fecha_nac: data.fecha_nac || '',
         rol_id: data.rol_id || 1
     };
@@ -292,6 +286,7 @@ const saveUser = async () => {
 
             userDialog.value = false;
             usuario.value = {
+                id: 0,
                 nombre: '',
                 email: '',
                 password: '',

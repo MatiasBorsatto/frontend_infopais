@@ -20,9 +20,9 @@ interface RegisterAdmin {
   rol_id: number;
 }
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
 
-//const API_URL = "http://192.168.1.16:3001/api";    En produccion
+//const API_URL = "http://192.168.1.16:3000/api";    En produccion
 
 
 class AuthService {
